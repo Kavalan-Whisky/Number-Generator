@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Number Generator{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; }
+        nav { background: #1a1a2e; padding: 1rem 2rem; display: flex; align-items: center; gap: 2rem; border-bottom: 1px solid #333; }
+        nav h1 { color: #7c3aed; font-size: 1.5rem; font-weight: 700; }
+        nav a { color: #a0a0c0; text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+        nav a:hover { color: #7c3aed; }
+        main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        .card { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .btn { background: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .btn:hover { background: #6d28d9; }
+        .btn-outline { background: transparent; border: 1px solid #7c3aed; color: #7c3aed; }
+        input, select, textarea { background: #0f0f1a; border: 1px solid #444; color: #e0e0e0; padding: 0.5rem; border-radius: 6px; font-size: 0.9rem; }
+        input:focus, select:focus { outline: none; border-color: #7c3aed; }
+        h2 { color: #c4b5fd; margin-bottom: 1rem; }
+        h3 { color: #a78bfa; margin-bottom: 0.5rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+        .badge-green { background: #064e3b; color: #6ee7b7; }
+        .badge-blue { background: #1e3a5f; color: #93c5fd; }
+        .badge-purple { background: #4c1d95; color: #c4b5fd; }
+        code { background: #0f0f1a; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.85em; color: #a78bfa; }
+        pre { background: #0f0f1a; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #2d2d4e; color: #a78bfa; text-align: left; padding: 0.75rem; border-bottom: 1px solid #333; }
+        td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #2d2d4e; }
+        tr:hover { background: #1e1e3a; }
+        .form-row { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; margin-bottom: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+        label { font-size: 0.85rem; color: #a0a0c0; }
+        #output { font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; color: #6ee7b7; }
+        .spinner { animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        footer { text-align: center; padding: 2rem; color: #555; font-size: 0.85rem; margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>⚡ NumGen</h1>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/api/v1/health">API Health</a>
+        <a href="/api/v1/algorithms">Algorithms</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        Number Generator v1.0.0 — Comprehensive number generation toolkit
+    </footer>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

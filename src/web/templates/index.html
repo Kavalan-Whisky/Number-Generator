@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block title %}Number Generator - Home{% endblock %}
+{% block content %}
+<div style="text-align:center; padding: 3rem 0 2rem;">
+    <h1 style="font-size: 3rem; color: #7c3aed; margin-bottom: 1rem;">⚡ Number Generator</h1>
+    <p style="color: #a0a0c0; font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem;">
+        A comprehensive toolkit for generating, analyzing, and transforming number sequences.
+        Supports PRNGs, prime numbers, Fibonacci, statistical distributions, and more.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/dashboard" class="btn" style="text-decoration:none; padding: 0.8rem 2rem; font-size: 1rem;">Open Dashboard</a>
+        <a href="/api/v1/health" class="btn btn-outline" style="text-decoration:none; padding: 0.8rem 2rem; font-size: 1rem;">API Status</a>
+    </div>
+</div>
+
+<!-- Quick Generator -->
+<div class="card">
+    <h2>Quick Generator</h2>
+    <div class="form-row">
+        <div class="form-group">
+            <label>Generator Type</label>
+            <select id="gen-type" onchange="updateForm()">
+                <option value="random">Random Numbers</option>
+                <option value="prime">Prime Numbers</option>
+                <option value="fibonacci">Fibonacci</option>
+                <option value="sequence">Sequence</option>
+                <option value="statistical">Statistical</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Count</label>
+            <input type="number" id="gen-count" value="20" min="1" max="1000" style="width: 80px;">
+        </div>
+        <div class="form-group" id="param1-group">
+            <label id="param1-label">Algorithm</label>
+            <select id="gen-param1">
+                <option value="mersenne">Mersenne Twister</option>
+                <option value="lcg">LCG</option>
+                <option value="xorshift32">Xorshift-32</option>
+                <option value="pcg">PCG</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn" onclick="quickGenerate()">Generate</button>
+        </div>
+    </div>
+    <div id="quick-output" style="margin-top: 1rem;"></div>
+</div>
+
+<!-- Feature Cards -->
+<div class="grid-3">
+    <div class="card">
+        <h3>🎲 Random Generators</h3>
+        <p style="color: #a0a0c0; font-size: 0.9rem; margin-bottom: 1rem;">LCG, Xorshift, PCG, LFSR, Mersenne Twister, BBS</p>
+        <span class="badge badge-purple">8 algorithms</span>
+    </div>
+    <div class="card">
+        <h3>🔢 Prime Numbers</h3>
+        <p style="color: #a0a0c0; font-size: 0.9rem; margin-bottom: 1rem;">Sieve of Eratosthenes, Miller-Rabin, Segmented Sieve</p>
+        <span class="badge badge-blue">3 algorithms</span>
+    </div>
+    <div class="card">
+        <h3>🌀 Fibonacci</h3>
+        <p style="color: #a0a0c0; font-size: 0.9rem; margin-bottom: 1rem;">Iterative, Matrix Exponentiation, Lucas, Tribonacci</p>
+        <span class="badge badge-green">6 variants</span>
+    </div>
+    <div class="card">
+        <h3>📊 Statistical</h3>
+        <p style="color: #a0a0c0; font-size: 0.9rem; margin-bottom: 1rem;">Normal, Poisson, Exponential, Beta, Gamma distributions</p>
+        <span class="badge badge-purple">10 distributions</span>
+    </div>
+    <div class="card">
+        <h3>🔐 Cryptographic</h3>
+        <p style="color: #a0a0c0; font-size: 0.9rem; margin-bottom: 1rem;">UUID, secure tokens, OTP, hash-based PRNG</p>
+        <span class="badge badge-blue">Cryptographically secure</span>
+    </div>
+    <div class="card">
+        <h3>🔬 Analysis</h3>
+        <p style="color: #a0a0c0; font-size: 0.9rem; margin-bottom: 1rem;">Statistical tests, randomness testing, pattern detection</p>
+        <span class="badge badge-green">NIST-inspired</span>
+    </div>
+</div>
+
+<!-- API Quick Reference -->
+<div class="card">
+    <h2>API Quick Reference</h2>
+    <div class="grid-2">
+        <div>
+            <h3>Generate</h3>
+            <pre>GET /api/v1/generate/random?algorithm=lcg&count=10
+GET /api/v1/generate/prime?count=20
+GET /api/v1/generate/fibonacci?count=15
+GET /api/v1/generate/sequence?type=catalan&count=10</pre>
+        </div>
+        <div>
+            <h3>Analyze</h3>
+            <pre>POST /api/v1/analyze
+{
+  "data": [1, 2, 3, 4, 5, ...],
+  "tests": "all"
+}
+
+POST /api/v1/transform
+{
+  "data": [...],
+  "operation": "normalize"
+}</pre>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateForm() {
+    const type = document.getElementById('gen-type').value;
+    const param1 = document.getElementById('gen-param1');
+    const label = document.getElementById('param1-label');
+    param1.innerHTML = '';
+    if (type === 'random') {
+        label.textContent = 'Algorithm';
+        ['mersenne','lcg','xorshift32','pcg','lfsr'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a.toUpperCase(); param1.appendChild(o);
+        });
+    } else if (type === 'fibonacci') {
+        label.textContent = 'Type';
+        ['fibonacci','lucas','tribonacci','tetranacci'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param1.appendChild(o);
+        });
+    } else if (type === 'sequence') {
+        label.textContent = 'Type';
+        ['catalan','bell','triangular','recaman','padovan'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param1.appendChild(o);
+        });
+    } else if (type === 'statistical') {
+        label.textContent = 'Distribution';
+        ['normal','exponential','poisson','uniform','gamma'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param1.appendChild(o);
+        });
+    } else {
+        label.textContent = '-';
+    }
+}
+
+async function quickGenerate() {
+    const type = document.getElementById('gen-type').value;
+    const count = document.getElementById('gen-count').value;
+    const param = document.getElementById('gen-param1').value;
+    let url = `/api/v1/generate/${type}?count=${count}`;
+    if (type === 'random') url += `&algorithm=${param}`;
+    if (type === 'fibonacci') url += `&type=${param}`;
+    if (type === 'sequence') url += `&type=${param}`;
+    if (type === 'statistical') url += `&distribution=${param}`;
+    const output = document.getElementById('quick-output');
+    output.innerHTML = '<span class="spinner">⚙</span> Generating...';
+    try {
+        const resp = await fetch(url);
+        const json = await resp.json();
+        const data = json.data;
+        const nums = data.numbers || data.primes || data.sequence || data.values || [];
+        output.innerHTML = `<div style="color:#6ee7b7; font-family:monospace; word-break:break-all;">[${nums.slice(0,50).map(n => typeof n === 'number' ? (Number.isInteger(n) ? n : n.toFixed(4)) : n).join(', ')}${nums.length > 50 ? '...' : ''}]</div><div style="color:#555; margin-top:.5rem; font-size:.8rem;">Generated ${nums.length} values</div>`;
+    } catch(e) {
+        output.innerHTML = `<span style="color:#f87171">Error: ${e.message}</span>`;
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+app:
+  name: "Number Generator"
+  version: "1.0.0"
+  debug: false
+
+web:
+  host: "0.0.0.0"
+  port: 5000
+  max_count: 10000
+  max_analysis_size: 100000
+
+database:
+  url: "sqlite:///numgen.db"
+  echo: false
+
+generators:
+  random:
+    default_algorithm: "mersenne"
+    default_count: 10
+    default_min: 0
+    default_max: 1000
+
+  prime:
+    default_count: 20
+    default_start: 2
+    default_algorithm: "sieve"
+
+  fibonacci:
+    default_count: 20
+    default_method: "iterative"
+
+  statistical:
+    default_distribution: "normal"
+    default_count: 100
+
+cli:
+  default_format: "table"
+  color_output: true
+  progress_bars: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

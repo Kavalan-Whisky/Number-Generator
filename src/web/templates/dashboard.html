@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}Number Generator - Dashboard{% endblock %}
+{% block content %}
+<h2 style="margin-bottom: 1.5rem;">Dashboard</h2>
+
+<div class="grid-2" style="gap: 1.5rem;">
+    <!-- Generator Panel -->
+    <div class="card" style="grid-column: 1 / -1;">
+        <h3>Generator</h3>
+        <div class="form-row" style="align-items: flex-end; gap: 1rem; flex-wrap: wrap;">
+            <div class="form-group">
+                <label>Type</label>
+                <select id="dash-type" onchange="dashUpdateForm()">
+                    <option value="random">Random</option>
+                    <option value="prime">Prime</option>
+                    <option value="fibonacci">Fibonacci</option>
+                    <option value="sequence">Sequence</option>
+                    <option value="statistical">Statistical</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Count</label>
+                <input type="number" id="dash-count" value="50" min="1" max="1000" style="width:80px;">
+            </div>
+            <div class="form-group" id="dash-param1-group">
+                <label id="dash-param1-label">Algorithm</label>
+                <select id="dash-param1">
+                    <option value="mersenne">Mersenne Twister</option>
+                    <option value="lcg">LCG</option>
+                    <option value="xorshift32">Xorshift-32</option>
+                    <option value="pcg">PCG</option>
+                    <option value="lfsr">LFSR</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Min</label>
+                <input type="number" id="dash-min" value="0" style="width:70px;">
+            </div>
+            <div class="form-group">
+                <label>Max</label>
+                <input type="number" id="dash-max" value="100" style="width:70px;">
+            </div>
+            <div class="form-group">
+                <label>Seed</label>
+                <input type="number" id="dash-seed" placeholder="optional" style="width:90px;">
+            </div>
+            <button class="btn" onclick="dashGenerate()">Generate</button>
+        </div>
+        <div id="dash-status" style="font-size: 0.85rem; color: #a0a0c0; min-height: 1.5rem;"></div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="card" style="max-height: 400px; overflow-y: auto;">
+        <h3>Results <span id="result-count" style="font-size:0.8rem; color:#555;"></span></h3>
+        <table id="results-table">
+            <thead>
+                <tr><th>#</th><th>Value</th></tr>
+            </thead>
+            <tbody id="results-body">
+                <tr><td colspan="2" style="text-align:center; color:#555; padding:2rem;">No data yet</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Stats Panel -->
+    <div class="card">
+        <h3>Quick Statistics</h3>
+        <table id="stats-table">
+            <tbody id="stats-body">
+                <tr><td colspan="2" style="text-align:center; color:#555; padding:2rem;">Generate data first</td></tr>
+            </tbody>
+        </table>
+        <div id="histogram" style="margin-top: 1rem; font-family: monospace; font-size: 0.8rem;"></div>
+    </div>
+</div>
+
+<!-- Analysis Panel -->
+<div class="card">
+    <h3>Analyze Current Data</h3>
+    <div class="form-row">
+        <div class="form-group">
+            <label>Analysis Type</label>
+            <select id="analysis-type">
+                <option value="statistical">Statistical</option>
+                <option value="randomness">Randomness Tests</option>
+                <option value="patterns">Pattern Detection</option>
+                <option value="distributions">Distribution Fitting</option>
+                <option value="all">All Tests</option>
+            </select>
+        </div>
+        <button class="btn" onclick="runAnalysis()">Analyze</button>
+    </div>
+    <pre id="analysis-output" style="margin-top: 1rem; max-height: 300px; overflow-y: auto; color: #6ee7b7; background: #0f0f1a; padding: 1rem; border-radius: 6px; display: none;"></pre>
+</div>
+
+<!-- Transform Panel -->
+<div class="card">
+    <h3>Transform</h3>
+    <div class="form-row">
+        <div class="form-group">
+            <label>Operation</label>
+            <select id="transform-op">
+                <option value="normalize">Normalize</option>
+                <option value="standardize">Standardize</option>
+                <option value="differences">Differences</option>
+                <option value="running_sum">Running Sum</option>
+                <option value="moving_average">Moving Average</option>
+                <option value="delta_encode">Delta Encode</option>
+                <option value="sort">Sort</option>
+                <option value="reverse">Reverse</option>
+                <option value="unique">Unique</option>
+            </select>
+        </div>
+        <button class="btn" onclick="runTransform()">Transform</button>
+        <button class="btn btn-outline" onclick="copyData()">Copy JSON</button>
+    </div>
+    <div id="transform-output" style="font-family:monospace; font-size:0.8rem; color:#c4b5fd; margin-top:0.5rem; word-break:break-all; max-height:100px; overflow-y:auto;"></div>
+</div>
+
+<script>
+let currentData = [];
+
+function dashUpdateForm() {
+    const type = document.getElementById('dash-type').value;
+    const param = document.getElementById('dash-param1');
+    const label = document.getElementById('dash-param1-label');
+    param.innerHTML = '';
+    const minMax = document.getElementById('dash-min').parentElement;
+    const minMaxEl = document.getElementById('dash-max').parentElement;
+    if (type === 'random') {
+        label.textContent = 'Algorithm';
+        ['mersenne','lcg','xorshift32','pcg','lfsr'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param.appendChild(o);
+        });
+    } else if (type === 'fibonacci') {
+        label.textContent = 'Type';
+        ['fibonacci','lucas','tribonacci'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param.appendChild(o);
+        });
+    } else if (type === 'sequence') {
+        label.textContent = 'Type';
+        ['catalan','triangular','bell','recaman','padovan','perrin'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param.appendChild(o);
+        });
+    } else if (type === 'statistical') {
+        label.textContent = 'Distribution';
+        ['normal','exponential','poisson','uniform','gamma','beta'].forEach(a => {
+            const o = document.createElement('option'); o.value = a; o.textContent = a; param.appendChild(o);
+        });
+    }
+}
+
+async function dashGenerate() {
+    const type = document.getElementById('dash-type').value;
+    const count = document.getElementById('dash-count').value;
+    const param = document.getElementById('dash-param1').value;
+    const min = document.getElementById('dash-min').value;
+    const max = document.getElementById('dash-max').value;
+    const seed = document.getElementById('dash-seed').value;
+    document.getElementById('dash-status').textContent = '⚙ Generating...';
+    let url = `/api/v1/generate/${type}?count=${count}`;
+    if (type === 'random') url += `&algorithm=${param}&min=${min}&max=${max}${seed ? '&seed='+seed : ''}`;
+    if (type === 'fibonacci') url += `&type=${param}`;
+    if (type === 'sequence') url += `&type=${param}`;
+    if (type === 'statistical') url += `&distribution=${param}`;
+    try {
+        const resp = await fetch(url);
+        const json = await resp.json();
+        const data = json.data;
+        currentData = data.numbers || data.primes || data.sequence || data.values || [];
+        displayResults();
+        displayStats();
+        document.getElementById('dash-status').textContent = `✓ Generated ${currentData.length} values`;
+    } catch(e) {
+        document.getElementById('dash-status').textContent = `✗ Error: ${e.message}`;
+    }
+}
+
+function displayResults() {
+    const tbody = document.getElementById('results-body');
+    document.getElementById('result-count').textContent = `(${currentData.length} values)`;
+    if (!currentData.length) { tbody.innerHTML = '<tr><td colspan="2">No data</td></tr>'; return; }
+    tbody.innerHTML = currentData.slice(0, 200).map((v, i) =>
+        `<tr><td>${i+1}</td><td>${typeof v === 'number' ? (Number.isInteger(v) ? v : v.toFixed(4)) : v}</td></tr>`
+    ).join('');
+}
+
+function displayStats() {
+    if (!currentData.length) return;
+    const nums = currentData.map(Number);
+    const n = nums.length;
+    const sum = nums.reduce((a,b)=>a+b, 0);
+    const mean = sum/n;
+    const variance = nums.reduce((a,b)=>a+(b-mean)**2, 0)/n;
+    const sorted = [...nums].sort((a,b)=>a-b);
+    const stats = [
+        ['Count', n], ['Sum', sum.toFixed(2)], ['Mean', mean.toFixed(4)],
+        ['Std Dev', Math.sqrt(variance).toFixed(4)],
+        ['Min', sorted[0]], ['Max', sorted[n-1]],
+        ['Median', sorted[Math.floor(n/2)]],
+    ];
+    document.getElementById('stats-body').innerHTML = stats.map(([k,v]) =>
+        `<tr><td style="color:#a0a0c0">${k}</td><td style="text-align:right; color:#6ee7b7">${v}</td></tr>`
+    ).join('');
+    // Simple histogram
+    const bins = 10;
+    const bw = (sorted[n-1] - sorted[0]) / bins;
+    if (bw > 0) {
+        const counts = new Array(bins).fill(0);
+        nums.forEach(v => { const idx = Math.min(Math.floor((v - sorted[0]) / bw), bins-1); counts[idx]++; });
+        const maxC = Math.max(...counts);
+        document.getElementById('histogram').innerHTML = '<div style="margin-top:.5rem; color:#555; font-size:.75rem;">Distribution:</div>' +
+            counts.map((c,i) => `<div style="color:#7c3aed;">${'█'.repeat(Math.round(c/maxC*20))} <span style="color:#555">${c}</span></div>`).join('');
+    }
+}
+
+async function runAnalysis() {
+    if (!currentData.length) { alert('Generate data first'); return; }
+    const tests = document.getElementById('analysis-type').value;
+    const out = document.getElementById('analysis-output');
+    out.style.display = 'block';
+    out.textContent = 'Analyzing...';
+    try {
+        const resp = await fetch('/api/v1/analyze', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ data: currentData, tests })
+        });
+        const json = await resp.json();
+        out.textContent = JSON.stringify(json.data, null, 2);
+    } catch(e) {
+        out.textContent = 'Error: ' + e.message;
+    }
+}
+
+async function runTransform() {
+    if (!currentData.length) { alert('Generate data first'); return; }
+    const op = document.getElementById('transform-op').value;
+    try {
+        const resp = await fetch('/api/v1/transform', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ data: currentData, operation: op })
+        });
+        const json = await resp.json();
+        const result = json.data.result || [];
+        document.getElementById('transform-output').textContent =
+            '[' + result.slice(0,30).map(v => typeof v === 'number' ? v.toFixed(4) : v).join(', ') + (result.length > 30 ? '...' : '') + ']';
+    } catch(e) {
+        document.getElementById('transform-output').textContent = 'Error: ' + e.message;
+    }
+}
+
+function copyData() {
+    navigator.clipboard.writeText(JSON.stringify(currentData));
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy JSON', 1500);
+}
+</script>
+{% endblock %}
