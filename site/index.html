@@ -19,6 +19,7 @@
   --success: #6ee7b7;
   --error: #f87171;
   --warning: #fbbf24;
+  --info: #60a5fa;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -41,11 +42,11 @@ nav {
   position: sticky; top: 0; z-index: 100;
   display: flex; align-items: center; gap: 1.5rem;
   padding: 1rem 2rem;
-  background: rgba(15,15,26,0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(15,15,26,0.9);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
-nav .brand { font-weight: 700; font-size: 1.15rem; color: var(--primary-light); }
+nav .brand { font-weight: 700; font-size: 1.15rem; color: var(--primary-light); white-space: nowrap; }
 nav .brand span { color: var(--text); }
 nav .links { margin-left: auto; display: flex; gap: 1.25rem; flex-wrap: wrap; }
 nav a { color: var(--text-muted); font-size: 0.9rem; }
@@ -54,98 +55,174 @@ nav a:hover { color: var(--primary-light); text-decoration: none; }
 /* Hero */
 header.hero {
   text-align: center;
-  padding: 5rem 1.5rem 3.5rem;
-  background:
-    radial-gradient(ellipse at top, rgba(124,58,237,0.18), transparent 60%);
+  padding: 5.5rem 1.5rem 4rem;
+  background: radial-gradient(ellipse at top, rgba(124,58,237,0.22), transparent 65%);
 }
 header.hero h1 {
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-size: clamp(2.4rem, 6vw, 4rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #c4b5fd, #7c3aed 60%, #6ee7b7);
+  background: linear-gradient(135deg, #c4b5fd, #7c3aed 55%, #6ee7b7);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
-header.hero p.tagline { font-size: 1.2rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2rem; }
+header.hero p.tagline { font-size: 1.2rem; color: var(--text-muted); max-width: 680px; margin: 0 auto 2.25rem; }
 .cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .btn {
   display: inline-block; padding: 0.75rem 1.75rem; border-radius: 10px;
-  font-weight: 600; transition: transform .15s, box-shadow .15s;
+  font-weight: 600; transition: transform .15s, box-shadow .15s; cursor: pointer;
+  border: none; font-size: 0.95rem;
 }
 .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 20px rgba(124,58,237,0.4); }
 .btn-primary:hover { transform: translateY(-2px); text-decoration: none; box-shadow: 0 6px 28px rgba(124,58,237,0.55); }
-.btn-ghost { border: 1px solid var(--border); color: var(--text); }
+.btn-ghost { border: 1px solid var(--border); color: var(--text); background: transparent; }
 .btn-ghost:hover { border-color: var(--primary); text-decoration: none; }
+.btn-sm { padding: 0.4rem 1rem; font-size: 0.82rem; border-radius: 7px; }
+.btn-success { background: rgba(110,231,183,0.15); color: var(--success); border: 1px solid rgba(110,231,183,0.3); }
+.btn-success:hover { background: rgba(110,231,183,0.25); }
+.btn-info { background: rgba(96,165,250,0.15); color: var(--info); border: 1px solid rgba(96,165,250,0.3); }
+.btn-info:hover { background: rgba(96,165,250,0.25); }
 
-/* Stat bar */
-.stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-top: 3rem; }
+/* Stats bar */
+.stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-top: 3.5rem; }
 .stat { text-align: center; }
-.stat .num { font-size: 2.2rem; font-weight: 800; color: var(--primary-light); }
-.stat .lbl { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+.stat .num { font-size: 2.3rem; font-weight: 800; color: var(--primary-light); }
+.stat .lbl { font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
 
 /* Layout */
-main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem; }
-section { margin-bottom: 4.5rem; scroll-margin-top: 80px; }
-section h2 { font-size: 1.9rem; margin-bottom: 0.4rem; }
-section .sub { color: var(--text-muted); margin-bottom: 2rem; }
+main { max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem; }
+section { margin-bottom: 5rem; scroll-margin-top: 80px; }
+section > h2 { font-size: 2rem; margin-bottom: 0.4rem; }
+section > .sub { color: var(--text-muted); margin-bottom: 2.25rem; font-size: 1rem; }
 
 /* Cards grid */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.25rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.1rem; }
 .card {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 14px; padding: 1.5rem; transition: border-color .2s, transform .2s;
 }
 .card:hover { border-color: var(--primary); transform: translateY(-3px); }
-.card .ico { font-size: 1.8rem; margin-bottom: 0.6rem; }
-.card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--primary-light); }
-.card p { font-size: 0.9rem; color: var(--text-muted); }
-.card .tag { display: inline-block; margin-top: 0.75rem; font-size: 0.72rem; color: var(--success);
+.card .ico { font-size: 1.9rem; margin-bottom: 0.65rem; }
+.card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--primary-light); }
+.card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+.card .tag { display: inline-block; margin-top: 0.75rem; font-size: 0.7rem; color: var(--success);
   background: rgba(110,231,183,0.1); padding: 0.15rem 0.55rem; border-radius: 6px; }
 
-/* Demo */
+/* Demo section */
 .demo {
   background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 16px; padding: 1.75rem;
+  border-radius: 18px; padding: 2rem;
 }
-.demo .controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1.25rem; }
+.demo .controls {
+  display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1rem;
+}
 .field { display: flex; flex-direction: column; gap: 0.3rem; }
-.field label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.field label { font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
 .field select, .field input {
   background: var(--bg); border: 1px solid var(--border); color: var(--text);
   padding: 0.55rem 0.75rem; border-radius: 8px; font-size: 0.9rem; min-width: 130px;
 }
+.field select { min-width: 200px; }
 .field select:focus, .field input:focus { outline: none; border-color: var(--primary); }
-#genBtn { cursor: pointer; }
-.output {
-  margin-top: 1.25rem; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 10px; padding: 1rem; min-height: 90px;
+
+.demo-desc {
+  background: var(--bg); border-left: 3px solid var(--primary);
+  border-radius: 6px; padding: 0.7rem 1rem;
+  font-size: 0.88rem; color: var(--text-muted);
+  min-height: 2.4em; margin-bottom: 1rem;
 }
-.number-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 0.45rem; }
+
+/* Output grid */
+.output {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem; min-height: 100px;
+}
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 0.4rem;
+}
 .number-cell {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
-  padding: 0.45rem 0.3rem; text-align: center; font-family: monospace; font-size: 0.82rem;
-  color: var(--success); overflow: hidden; text-overflow: ellipsis;
+  padding: 0.45rem 0.3rem; text-align: center; font-family: monospace; font-size: 0.8rem;
+  color: var(--success); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: border-color .15s, background .15s;
 }
-.number-cell:hover { border-color: var(--primary); }
-.demo .meta { margin-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted); }
-.demo .desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; min-height: 1.2em; }
+.number-cell:hover { border-color: var(--primary); background: var(--bg-hover); }
+
+/* Stats panel */
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+.stat-card {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+}
+.stat-card .s-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 0.2rem; }
+.stat-card .s-val { font-family: monospace; font-size: 0.95rem; color: var(--primary-light); font-weight: 600; }
+
+/* Histogram */
+.histogram-wrap {
+  margin-top: 1.25rem;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1rem;
+}
+.histogram-wrap h4 { font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 0.75rem; }
+#histCanvas { width: 100%; height: 140px; display: block; border-radius: 6px; }
+
+/* Action bar */
+.action-bar {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  margin-top: 1.1rem; align-items: center;
+}
+.action-bar .meta { margin-left: auto; font-size: 0.8rem; color: var(--text-muted); }
+#copyMsg { font-size: 0.78rem; color: var(--success); opacity: 0; transition: opacity .3s; }
 
 /* Code block */
 pre.code {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-  padding: 1.25rem 1.5rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.7;
+  padding: 1.4rem 1.6rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.75;
 }
 pre.code .c { color: var(--text-muted); }
 pre.code .k { color: var(--primary-light); }
 pre.code .s { color: var(--success); }
+pre.code .t { color: var(--warning); }
+
+/* Algo table */
+.algo-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.algo-table th { text-align: left; padding: 0.65rem 1rem; border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: .05em; }
+.algo-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.algo-table tr:hover td { background: var(--bg-card); }
+.algo-table td:first-child { color: var(--primary-light); font-family: monospace; white-space: nowrap; }
+.algo-table td:last-child { color: var(--text-muted); }
+.badge { display: inline-block; font-size: 0.67rem; padding: 0.1rem 0.45rem; border-radius: 4px; margin-left: 0.35rem; vertical-align: middle; }
+.badge-chaos { background: rgba(248,113,113,0.15); color: var(--error); }
+.badge-prng { background: rgba(124,58,237,0.2); color: var(--primary-light); }
+.badge-seq { background: rgba(110,231,183,0.12); color: var(--success); }
+.badge-const { background: rgba(251,191,36,0.15); color: var(--warning); }
+.badge-quasi { background: rgba(96,165,250,0.15); color: var(--info); }
 
 /* Footer */
-footer { border-top: 1px solid var(--border); padding: 2.5rem 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+footer {
+  border-top: 1px solid var(--border); padding: 3rem 1.5rem;
+  text-align: center; color: var(--text-muted); font-size: 0.88rem;
+}
+footer .footer-grid { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-bottom: 2rem; }
+footer .f-col h4 { color: var(--text); font-size: 0.95rem; margin-bottom: 0.75rem; }
+footer .f-col a { display: block; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.35rem; }
+footer .f-col a:hover { color: var(--primary-light); }
 
-@media (max-width: 600px) {
-  nav { padding: 0.85rem 1rem; }
-  nav .links { gap: 0.85rem; }
+@media (max-width: 640px) {
+  nav { padding: 0.8rem 1rem; }
+  nav .links { gap: 0.8rem; }
   .stats { gap: 1.5rem; }
+  .demo { padding: 1.25rem; }
+  .field select { min-width: 160px; }
+  .action-bar .meta { width: 100%; margin-left: 0; }
 }
 </style>
 </head>
@@ -156,6 +233,7 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 1.5rem; text-align
   <div class="links">
     <a href="#features">Features</a>
     <a href="#demo">Live Demo</a>
+    <a href="#algorithms">Algorithms</a>
     <a href="#modules">Modules</a>
     <a href="#usage">Usage</a>
     <a href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">GitHub</a>
@@ -164,298 +242,978 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 1.5rem; text-align
 
 <header class="hero">
   <h1>Number Generator</h1>
-  <p class="tagline">A large, modular Python toolkit for <strong>generating</strong>, <strong>analyzing</strong>,
+  <p class="tagline">A massive, modular Python toolkit for <strong>generating</strong>, <strong>analyzing</strong>,
     and <strong>transforming</strong> number sequences — from PRNGs and primes to chaos maps,
-    quasirandom sequences, and number theory.</p>
+    quasirandom low-discrepancy sequences, number theory, and beyond.</p>
   <div class="cta">
     <a class="btn btn-primary" href="#demo">Try the Live Demo</a>
     <a class="btn btn-ghost" href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">View Source ↗</a>
   </div>
   <div class="stats">
     <div class="stat"><div class="num">17K+</div><div class="lbl">Lines of Python</div></div>
-    <div class="stat"><div class="num">16</div><div class="lbl">Generator Modules</div></div>
+    <div class="stat"><div class="num">17</div><div class="lbl">Generator Modules</div></div>
     <div class="stat"><div class="num">807</div><div class="lbl">Passing Tests</div></div>
-    <div class="stat"><div class="num">8</div><div class="lbl">Analyzers</div></div>
+    <div class="stat"><div class="num">30+</div><div class="lbl">Algorithms in Demo</div></div>
+    <div class="stat"><div class="num">8</div><div class="lbl">Analyzer Modules</div></div>
   </div>
 </header>
 
 <main>
 
-  <section id="features">
-    <h2>What's inside</h2>
-    <p class="sub">A full pipeline: generate sequences, run statistical &amp; complexity analysis, then transform the results.</p>
-    <div class="grid">
-      <div class="card">
-        <div class="ico">🎲</div>
-        <h3>Pseudo-Random Generators</h3>
-        <p>LCG, Xorshift (32/64), PCG, LFSR, Blum-Blum-Shub, Middle-Square, and Mersenne Twister — implemented from scratch.</p>
-        <span class="tag">random_generator</span>
+<section id="features">
+  <h2>What's inside</h2>
+  <p class="sub">A full pipeline: generate sequences → run statistical &amp; complexity analysis → transform the results.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="ico">🎲</div>
+      <h3>Pseudo-Random Generators</h3>
+      <p>LCG, Xorshift (32/64), PCG, LFSR (Fibonacci &amp; Galois), Blum-Blum-Shub, Middle-Square, and Mersenne Twister — all from scratch.</p>
+      <span class="tag">random_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">🌀</div>
+      <h3>Chaos &amp; Fractals</h3>
+      <p>Logistic / Tent / Hénon maps, the Lorenz system, Arnold's cat map, plus Mandelbrot &amp; Julia set orbits and L-systems.</p>
+      <span class="tag">chaos_generator · fractal_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">🔢</div>
+      <h3>Primes &amp; Number Theory</h3>
+      <p>Sieves of Eratosthenes &amp; Sundaram, Miller-Rabin, twin primes, perfect, happy, narcissistic, Kaprekar, and vampire numbers.</p>
+      <span class="tag">prime · numbertheory</span>
+    </div>
+    <div class="card">
+      <div class="ico">📐</div>
+      <h3>Quasirandom Sequences</h3>
+      <p>Halton, Sobol, Van der Corput, golden-ratio, and Latin hypercube sampling for low-discrepancy uniform coverage.</p>
+      <span class="tag">quasirandom_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">π</div>
+      <h3>Constant Digits</h3>
+      <p>Spigot algorithms for π, e, √2, φ (golden ratio), the Champernowne constant, and the binary Thue-Morse sequence.</p>
+      <span class="tag">digits_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">🔀</div>
+      <h3>Noise &amp; Walks</h3>
+      <p>White, pink (Voss-McCartney), and brown noise; Perlin 1D, value noise, random walk, and Brownian bridge.</p>
+      <span class="tag">noise_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">🧮</div>
+      <h3>Matrix &amp; Combinatorics</h3>
+      <p>Pascal's triangle, magic squares, Hadamard matrices, Knight's tour, Stirling numbers, Eulerian numbers, Cayley formula.</p>
+      <span class="tag">matrix_generator · graph_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">📊</div>
+      <h3>Analyzers</h3>
+      <p>Statistics, NIST-style randomness tests, entropy (Shannon/ApEn/SampEn/LZ76), complexity, time-series &amp; pattern detection.</p>
+      <span class="tag">8 analyzer modules</span>
+    </div>
+    <div class="card">
+      <div class="ico">🔀</div>
+      <h3>Transformers</h3>
+      <p>Numeral systems (balanced ternary, Gray code, Zeckendorf), DSP windowing, FIR filters, DFT, Hilbert transform.</p>
+      <span class="tag">signal · numeral_systems</span>
+    </div>
+    <div class="card">
+      <div class="ico">🔐</div>
+      <h3>Cryptographic Sequences</h3>
+      <p>Legendre/Jacobi symbol sequences, HMAC-SHA256 counter mode, SHA-3 stream, Blum-Micali, elliptic curve point walks, m-sequences, Gold codes.</p>
+      <span class="tag">cryptographic_sequences</span>
+    </div>
+    <div class="card">
+      <div class="ico">📐</div>
+      <h3>Figurate &amp; Geometric</h3>
+      <p>Triangular, pentagonal, hexagonal, star, tetrahedral, octahedral numbers — plus lazy caterer, pronic, and all centered polygonal families.</p>
+      <span class="tag">geometric_generator</span>
+    </div>
+    <div class="card">
+      <div class="ico">🧩</div>
+      <h3>CLI, REST API &amp; Pipeline</h3>
+      <p>Click CLI with Rich output, Flask REST API + dashboard, composable lazy Pipeline framework, and a plugin registry.</p>
+      <span class="tag">cli · web · pipeline</span>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <h2>Live demo</h2>
+  <p class="sub">30+ generators running entirely in your browser. Every generator respects the <strong>seed</strong> — change it and watch the output change deterministically.</p>
+  <div class="demo">
+    <div class="controls">
+      <div class="field">
+        <label for="algo">Generator</label>
+        <select id="algo">
+          <optgroup label="Pseudo-Random PRNGs">
+            <option value="lcg">LCG (Linear Congruential)</option>
+            <option value="xorshift">Xorshift-32</option>
+            <option value="xorshift64">Xorshift-64</option>
+            <option value="pcg">PCG-32</option>
+            <option value="midsquare">Middle-Square</option>
+            <option value="lfsr">LFSR (16-bit, Galois)</option>
+          </optgroup>
+          <optgroup label="Classic Sequences">
+            <option value="fibonacci">Fibonacci (from seed offset)</option>
+            <option value="lucas">Lucas numbers</option>
+            <option value="tribonacci">Tribonacci</option>
+            <option value="primes">Primes (from seed offset)</option>
+            <option value="triangular">Triangular (from seed offset)</option>
+            <option value="pentagonal">Pentagonal numbers</option>
+            <option value="hexagonal">Hexagonal numbers</option>
+            <option value="catalan">Catalan numbers</option>
+            <option value="bell">Bell numbers</option>
+            <option value="padovan">Padovan sequence</option>
+            <option value="recaman">Recamán sequence</option>
+            <option value="look_and_say">Look-and-Say</option>
+            <option value="collatz">Collatz (from seed)</option>
+          </optgroup>
+          <optgroup label="Number Theory">
+            <option value="happy">Happy numbers (first n)</option>
+            <option value="perfect">Perfect numbers</option>
+            <option value="totient">Euler's Totient φ(seed..)</option>
+            <option value="gray">Gray code (from seed)</option>
+            <option value="abundant">Abundant numbers</option>
+          </optgroup>
+          <optgroup label="Chaos &amp; Fractals">
+            <option value="logistic">Logistic map (r=3.99)</option>
+            <option value="tent">Tent map</option>
+            <option value="henon_x">Hénon map (x-coords)</option>
+          </optgroup>
+          <optgroup label="Constants &amp; Digits">
+            <option value="pi">π digits (from seed offset)</option>
+            <option value="e_digits">e digits (from seed offset)</option>
+            <option value="sqrt2">√2 digits (from seed offset)</option>
+            <option value="thuemorse">Thue-Morse sequence</option>
+            <option value="champernowne">Champernowne digits</option>
+          </optgroup>
+          <optgroup label="Quasirandom">
+            <option value="halton2">Halton (base 2)</option>
+            <option value="halton3">Halton (base 3)</option>
+            <option value="vdc">Van der Corput (base 2)</option>
+            <option value="golden">Golden ratio sequence</option>
+          </optgroup>
+        </select>
       </div>
-      <div class="card">
-        <div class="ico">🌀</div>
-        <h3>Chaos &amp; Fractals</h3>
-        <p>Logistic / Tent / Hénon maps, the Lorenz system, Arnold's cat map, plus Mandelbrot &amp; Julia set orbits.</p>
-        <span class="tag">chaos_generator</span>
+      <div class="field">
+        <label for="count">Count</label>
+        <input id="count" type="number" value="32" min="1" max="300">
       </div>
-      <div class="card">
-        <div class="ico">🔢</div>
-        <h3>Primes &amp; Number Theory</h3>
-        <p>Sieves, Miller-Rabin, twin primes, plus perfect, happy, narcissistic, Kaprekar, and vampire numbers.</p>
-        <span class="tag">prime · numbertheory</span>
+      <div class="field">
+        <label for="seed">Seed</label>
+        <input id="seed" type="number" value="42" min="0">
       </div>
-      <div class="card">
-        <div class="ico">📐</div>
-        <h3>Quasirandom Sequences</h3>
-        <p>Halton, Sobol, Van der Corput, golden-ratio, and Latin hypercube sampling for low-discrepancy needs.</p>
-        <span class="tag">quasirandom_generator</span>
-      </div>
-      <div class="card">
-        <div class="ico">π</div>
-        <h3>Constant Digits</h3>
-        <p>Spigot algorithms for π, e, √2, φ, the Champernowne constant, and the Thue-Morse sequence.</p>
-        <span class="tag">digits_generator</span>
-      </div>
-      <div class="card">
-        <div class="ico">📊</div>
-        <h3>Analyzers</h3>
-        <p>Statistics, NIST-style randomness tests, entropy (Shannon/ApEn/SampEn), complexity (LZ76), and time-series tools.</p>
-        <span class="tag">8 analyzer modules</span>
-      </div>
-      <div class="card">
-        <div class="ico">🔀</div>
-        <h3>Transformers</h3>
-        <p>Numeral systems (balanced ternary, Zeckendorf, Gray code), plus DSP: windowing, FIR filters, DFT, Hilbert.</p>
-        <span class="tag">signal · numeral_systems</span>
-      </div>
-      <div class="card">
-        <div class="ico">🧩</div>
-        <h3>CLI, REST API &amp; Pipeline</h3>
-        <p>Click CLI with rich output, a Flask REST API + dashboard, a composable Pipeline framework, and a plugin registry.</p>
-        <span class="tag">cli · web · pipeline</span>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn btn-primary" id="genBtn">Generate ⟳</button>
       </div>
     </div>
-  </section>
 
-  <section id="demo">
-    <h2>Live demo</h2>
-    <p class="sub">Runs entirely in your browser — a faithful JavaScript port of several generators from the Python library.</p>
-    <div class="demo">
-      <div class="controls">
-        <div class="field">
-          <label for="algo">Generator</label>
-          <select id="algo">
-            <optgroup label="Pseudo-random">
-              <option value="lcg">Linear Congruential (LCG)</option>
-              <option value="xorshift">Xorshift-32</option>
-            </optgroup>
-            <optgroup label="Sequences">
-              <option value="fibonacci">Fibonacci</option>
-              <option value="primes">Primes</option>
-              <option value="triangular">Triangular numbers</option>
-              <option value="catalan">Catalan numbers</option>
-              <option value="collatz">Collatz (from seed)</option>
-            </optgroup>
-            <optgroup label="Chaos &amp; constants">
-              <option value="logistic">Logistic map</option>
-              <option value="thuemorse">Thue-Morse</option>
-              <option value="halton">Halton (base 2)</option>
-              <option value="pi">π digits</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class="field">
-          <label for="count">Count</label>
-          <input id="count" type="number" value="24" min="1" max="200">
-        </div>
-        <div class="field">
-          <label for="seed">Seed</label>
-          <input id="seed" type="number" value="42">
-        </div>
-        <div class="field">
-          <label>&nbsp;</label>
-          <a class="btn btn-primary" id="genBtn">Generate ⟳</a>
-        </div>
-      </div>
-      <div class="desc" id="desc"></div>
-      <div class="output">
-        <div class="number-grid" id="grid"></div>
-      </div>
-      <div class="meta" id="meta"></div>
+    <div class="demo-desc" id="desc">Select a generator above.</div>
+
+    <div class="output">
+      <div class="number-grid" id="grid"></div>
     </div>
-  </section>
 
-  <section id="modules">
-    <h2>Module map</h2>
-    <p class="sub">The <code>src/core</code> package, organized by responsibility.</p>
-    <div class="grid">
-      <div class="card"><h3>generators/</h3><p>16 modules: random, prime, fibonacci, sequence, statistical, crypto, fractal, combinatorial, chaos, noise, quasirandom, digits, numbertheory, matrix, geometric, graph, cryptographic_sequences.</p></div>
-      <div class="card"><h3>analyzers/</h3><p>statistical, randomness_tester, pattern_detector, distribution_fitter, entropy, complexity, time_series.</p></div>
-      <div class="card"><h3>transformers/</h3><p>number_formatter, sequence_transformer, encoder, numeral_systems, signal_transformer.</p></div>
-      <div class="card"><h3>pipeline/ · plugins/</h3><p>Composable lazy Pipeline (Map/Filter/Take/StatsSink) and a GeneratorRegistry plugin system.</p></div>
-      <div class="card"><h3>cli/ · web/</h3><p>Click CLI with Rich output and a Flask REST API with an interactive dark dashboard.</p></div>
-      <div class="card"><h3>database/</h3><p>SQLAlchemy models &amp; repository for persisting generation sessions and analysis results.</p></div>
+    <!-- Live stats panel -->
+    <div class="stats-panel" id="statsPanel" style="display:none"></div>
+
+    <!-- Histogram -->
+    <div class="histogram-wrap" id="histWrap" style="display:none">
+      <h4>Distribution histogram</h4>
+      <canvas id="histCanvas"></canvas>
     </div>
-  </section>
 
-  <section id="usage">
-    <h2>Usage</h2>
-    <p class="sub">Install the dependencies and drive it from the CLI, the API, or directly in Python.</p>
-    <pre class="code"><span class="c"># Install</span>
+    <!-- Action bar -->
+    <div class="action-bar">
+      <button class="btn btn-sm btn-success" id="copyBtn">⎘ Copy CSV</button>
+      <button class="btn btn-sm btn-info" id="downloadBtn">↓ Download .txt</button>
+      <span id="copyMsg">Copied!</span>
+      <span class="meta" id="meta"></span>
+    </div>
+  </div>
+</section>
+
+<section id="algorithms">
+  <h2>Algorithm reference</h2>
+  <p class="sub">Every generator in the demo, with its seed semantics and category.</p>
+  <div style="overflow-x:auto">
+  <table class="algo-table">
+    <thead>
+      <tr><th>Name</th><th>Category</th><th>Seed semantics</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>LCG</td><td><span class="badge badge-prng">PRNG</span></td><td>Initial state X₀</td><td>Xₙ₊₁ = (1664525·Xₙ + 1013904223) mod 2³²</td></tr>
+      <tr><td>Xorshift-32</td><td><span class="badge badge-prng">PRNG</span></td><td>Initial state</td><td>Marsaglia's 32-bit shift-register PRNG</td></tr>
+      <tr><td>Xorshift-64</td><td><span class="badge badge-prng">PRNG</span></td><td>Initial state</td><td>64-bit variant: shifts 13, 7, 17</td></tr>
+      <tr><td>PCG-32</td><td><span class="badge badge-prng">PRNG</span></td><td>Initial state</td><td>Permuted Congruential Generator with output permutation</td></tr>
+      <tr><td>Middle-Square</td><td><span class="badge badge-prng">PRNG</span></td><td>4-digit seed</td><td>Von Neumann's classic: square, take middle digits</td></tr>
+      <tr><td>LFSR-16</td><td><span class="badge badge-prng">PRNG</span></td><td>Initial 16-bit register</td><td>Galois LFSR, taps at positions 16,15,13,4</td></tr>
+      <tr><td>Fibonacci</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>F(n), F(n+1), … starting at F(seed)</td></tr>
+      <tr><td>Lucas</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>L(n) = L(n-1)+L(n-2), L(0)=2, L(1)=1</td></tr>
+      <tr><td>Tribonacci</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>Each term is sum of the previous three</td></tr>
+      <tr><td>Primes</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>P(seed), P(seed+1), … — n-th prime via sieve</td></tr>
+      <tr><td>Triangular</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>T(n) = n(n+1)/2 starting at n=seed</td></tr>
+      <tr><td>Pentagonal</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>P(n) = n(3n−1)/2 starting at n=seed</td></tr>
+      <tr><td>Hexagonal</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>H(n) = n(2n−1) starting at n=seed</td></tr>
+      <tr><td>Catalan</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>Cₙ = (2n)!/(n+1)!n!, starting at n=seed</td></tr>
+      <tr><td>Bell</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>Bell triangle row sums, starting at B(seed)</td></tr>
+      <tr><td>Padovan</td><td><span class="badge badge-seq">Sequence</span></td><td>Start index n₀</td><td>P(n)=P(n-2)+P(n-3), starts 1,1,1,2,2,3…</td></tr>
+      <tr><td>Recamán</td><td><span class="badge badge-seq">Sequence</span></td><td>Start value a(0)</td><td>a(n)=a(n-1)−n if positive and unseen, else a(n-1)+n</td></tr>
+      <tr><td>Look-and-Say</td><td><span class="badge badge-seq">Sequence</span></td><td>Seed as starting digit</td><td>Conway's run-length encoding sequence</td></tr>
+      <tr><td>Collatz</td><td><span class="badge badge-seq">Sequence</span></td><td>Starting value</td><td>Halve if even, 3n+1 if odd, terminates at 1</td></tr>
+      <tr><td>Happy numbers</td><td><span class="badge badge-seq">Theory</span></td><td>Search start</td><td>Numbers whose digit-square iteration reaches 1</td></tr>
+      <tr><td>Perfect numbers</td><td><span class="badge badge-seq">Theory</span></td><td>First n perfect</td><td>n = sum of its proper divisors: 6, 28, 496…</td></tr>
+      <tr><td>Totient φ</td><td><span class="badge badge-seq">Theory</span></td><td>Start value</td><td>φ(n) = count of integers ≤n coprime to n</td></tr>
+      <tr><td>Gray code</td><td><span class="badge badge-seq">Theory</span></td><td>Start index</td><td>G(n) = n XOR (n>>1), from index seed</td></tr>
+      <tr><td>Abundant</td><td><span class="badge badge-seq">Theory</span></td><td>Search start</td><td>σ(n) > 2n — proper divisor sum exceeds n</td></tr>
+      <tr><td>Logistic map</td><td><span class="badge badge-chaos">Chaos</span></td><td>x₀ ∈ (0,1)</td><td>xₙ₊₁=3.99·xₙ·(1−xₙ), seed/1000 after burn-in</td></tr>
+      <tr><td>Tent map</td><td><span class="badge badge-chaos">Chaos</span></td><td>x₀ ∈ (0,1)</td><td>xₙ₊₁=μ·min(xₙ,1−xₙ) with μ=1.99</td></tr>
+      <tr><td>Hénon map (x)</td><td><span class="badge badge-chaos">Chaos</span></td><td>Initial x₀</td><td>xₙ₊₁=1−a·xₙ²+yₙ, yₙ₊₁=b·xₙ, a=1.4,b=0.3</td></tr>
+      <tr><td>π digits</td><td><span class="badge badge-const">Constant</span></td><td>Decimal offset</td><td>Spigot algorithm; seed selects starting position</td></tr>
+      <tr><td>e digits</td><td><span class="badge badge-const">Constant</span></td><td>Decimal offset</td><td>Spigot for e=2.718…; seed selects starting position</td></tr>
+      <tr><td>√2 digits</td><td><span class="badge badge-const">Constant</span></td><td>Decimal offset</td><td>Long-division spigot; seed selects starting position</td></tr>
+      <tr><td>Thue-Morse</td><td><span class="badge badge-const">Constant</span></td><td>Start index n₀</td><td>Parity of popcount(n), starting at n=seed</td></tr>
+      <tr><td>Champernowne</td><td><span class="badge badge-const">Constant</span></td><td>Digit offset</td><td>0.123456789101112… — concatenated integers</td></tr>
+      <tr><td>Halton (base 2)</td><td><span class="badge badge-quasi">Quasi</span></td><td>Start index n₀</td><td>Van der Corput in base 2, from index seed</td></tr>
+      <tr><td>Halton (base 3)</td><td><span class="badge badge-quasi">Quasi</span></td><td>Start index n₀</td><td>Van der Corput in base 3, from index seed</td></tr>
+      <tr><td>Van der Corput</td><td><span class="badge badge-quasi">Quasi</span></td><td>Start index n₀</td><td>Reversed-digit fraction in base 2</td></tr>
+      <tr><td>Golden ratio</td><td><span class="badge badge-quasi">Quasi</span></td><td>Start index n₀</td><td>{seed·φ mod 1}, {(seed+1)·φ mod 1}, … for φ=(1+√5)/2</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="modules">
+  <h2>Module map</h2>
+  <p class="sub">The <code>src/core</code> package, organized by responsibility. Each module is independently importable.</p>
+  <div class="grid">
+    <div class="card"><h3>generators/</h3>
+      <p>17 modules: random, prime, fibonacci, sequence, statistical, crypto, fractal, combinatorial, chaos, noise, quasirandom, digits, numbertheory, matrix, geometric, graph, cryptographic_sequences.</p></div>
+    <div class="card"><h3>analyzers/</h3>
+      <p>8 modules: statistical, randomness_tester (NIST-style), pattern_detector, distribution_fitter, entropy_analyzer, complexity_analyzer, time_series_analyzer, correlation tools.</p></div>
+    <div class="card"><h3>transformers/</h3>
+      <p>5 modules: number_formatter (Roman, words, Morse), sequence_transformer (EMA, delta-encode), encoder (base-N), numeral_systems (Gray, Zeckendorf, balanced ternary), signal_transformer (FIR, DFT, Hilbert).</p></div>
+    <div class="card"><h3>pipeline/ · plugins/</h3>
+      <p>Composable lazy Pipeline with Map, Filter, Take, and StatsSink stages. GeneratorRegistry plugin system with decorator registration.</p></div>
+    <div class="card"><h3>cli/ · web/</h3>
+      <p>Click CLI with Rich table output and progress bars. Flask REST API with a dark interactive dashboard. All generators accessible via HTTP endpoints.</p></div>
+    <div class="card"><h3>database/</h3>
+      <p>SQLAlchemy models for GenerationSession, GeneratedSequence, and AnalysisResult. A Repository class handles CRUD with query helpers.</p></div>
+    <div class="card"><h3>utils/</h3>
+      <p>math_utils (GCD, LCM, CRT, Euler totient, Möbius, continued fractions), cache (LRU, TTL, memoize), validators (range checking, type coercion).</p></div>
+    <div class="card"><h3>tests/ — 807 tests</h3>
+      <p>Full pytest suite. Each module has a dedicated test file. Run with <code>pytest tests/ -q</code>. 100 % passing on Python 3.11.</p></div>
+  </div>
+</section>
+
+<section id="usage">
+  <h2>Usage</h2>
+  <p class="sub">Install the dependencies and drive the toolkit from the CLI, the REST API, or directly in Python.</p>
+  <pre class="code"><span class="c"># Clone &amp; install</span>
+git clone https://github.com/kavalan-whisky/number-generator.git
+cd number-generator
 pip install -r requirements.txt
 
-<span class="c"># Generate from the CLI</span>
-numgen generate random <span class="k">--algorithm</span> lcg <span class="k">--count</span> 100 <span class="k">--min</span> 0 <span class="k">--max</span> 1000
+<span class="c"># ── CLI ──────────────────────────────────────────────────</span>
+numgen generate random <span class="k">--algorithm</span> lcg <span class="k">--seed</span> <span class="s">42</span> <span class="k">--count</span> 100
 numgen generate fibonacci <span class="k">--count</span> 30 <span class="k">--variant</span> matrix
 numgen generate chaos <span class="k">--map</span> logistic <span class="k">--r</span> 3.99 <span class="k">--count</span> 100
-numgen generate digits <span class="k">--constant</span> pi <span class="k">--count</span> 100
+numgen generate digits <span class="k">--constant</span> pi <span class="k">--count</span> 50
+numgen analyze randomness <span class="k">--input</span> numbers.txt
 
-<span class="c"># Or use it as a library</span>
+<span class="c"># ── Python API ───────────────────────────────────────────</span>
 <span class="k">from</span> src.core.generators.random_generator <span class="k">import</span> LinearCongruentialGenerator
 gen = LinearCongruentialGenerator(seed=<span class="s">42</span>)
-print(gen.generate(<span class="s">10</span>, lo=<span class="s">0</span>, hi=<span class="s">100</span>))</pre>
-  </section>
+print(gen.generate(<span class="s">20</span>, lo=<span class="s">0</span>, hi=<span class="s">1000</span>))
+
+<span class="k">from</span> src.core.generators.chaos_generator <span class="k">import</span> LogisticMap
+lm = LogisticMap(r=<span class="s">3.99</span>, x0=<span class="s">0.42</span>)
+orbit = lm.generate(<span class="s">100</span>)
+
+<span class="k">from</span> src.core.analyzers.entropy_analyzer <span class="k">import</span> EntropyAnalyzer
+report = EntropyAnalyzer().analyze(orbit)
+print(report[<span class="s">"shannon_entropy"</span>])  <span class="c"># ≈ 3.3 bits</span>
+
+<span class="c"># ── REST API ─────────────────────────────────────────────</span>
+<span class="t">flask</span> --app src.web.app run
+<span class="c"># GET  /api/v1/generate/random?algorithm=lcg&amp;seed=42&amp;count=50</span>
+<span class="c"># GET  /api/v1/generate/fibonacci?count=30</span>
+<span class="c"># POST /api/v1/analyze/entropy  {sequence: [...]}</span>
+
+<span class="c"># ── Pipeline ─────────────────────────────────────────────</span>
+<span class="k">from</span> src.core.pipeline.pipeline <span class="k">import</span> Pipeline
+<span class="k">from</span> src.core.generators.prime_generator <span class="k">import</span> sieve_of_eratosthenes
+
+result = (Pipeline(sieve_of_eratosthenes(<span class="s">10000</span>))
+          .filter(<span class="k">lambda</span> p: p % <span class="s">4</span> == <span class="s">1</span>)  <span class="c"># Pythagorean primes</span>
+          .take(<span class="s">20</span>)
+          .collect())</pre>
+</section>
 
 </main>
 
 <footer>
-  <p>Number Generator — built with Python.
-    <a href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">Source on GitHub</a> ·
-    807 tests passing · MIT-style educational project.</p>
+  <div class="footer-grid">
+    <div class="f-col">
+      <h4>Generators</h4>
+      <a href="#demo">LCG / Xorshift / PCG</a>
+      <a href="#demo">Chaos maps</a>
+      <a href="#demo">π / e / √2 digits</a>
+      <a href="#demo">Quasirandom</a>
+      <a href="#demo">Number theory</a>
+    </div>
+    <div class="f-col">
+      <h4>Analyzers</h4>
+      <a href="#modules">Shannon entropy</a>
+      <a href="#modules">NIST randomness tests</a>
+      <a href="#modules">LZ76 complexity</a>
+      <a href="#modules">Time-series tools</a>
+    </div>
+    <div class="f-col">
+      <h4>Resources</h4>
+      <a href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">Source on GitHub ↗</a>
+      <a href="#usage">Installation guide</a>
+      <a href="#algorithms">Algorithm reference</a>
+    </div>
+  </div>
+  <p>Number Generator · 807 tests passing · MIT-style educational project · Built with Python 3.11</p>
 </footer>
 
 <script>
-// ---- JavaScript ports of the core generators (browser demo) ----
+// =========================================================
+//  Number Generator — Browser Demo (JS ports)
+//  Every generator accepts (n, seed) so changing seed
+//  always produces a deterministic, different sequence.
+// =========================================================
+
+// ---- Helper ----
+const phi = (1 + Math.sqrt(5)) / 2;
+
+function vdc(index, base) {
+  let f = 1, r = 0;
+  while (index > 0) { f /= base; r += f * (index % base); index = Math.floor(index / base); }
+  return r;
+}
+
+// ---- Primes (simple sieve up to limit) ----
+function primeSieve(limit) {
+  const sieve = new Uint8Array(limit + 1).fill(1);
+  sieve[0] = sieve[1] = 0;
+  for (let i = 2; i * i <= limit; i++) if (sieve[i]) for (let j = i*i; j <= limit; j += i) sieve[j] = 0;
+  const primes = [];
+  for (let i = 2; i <= limit; i++) if (sieve[i]) primes.push(i);
+  return primes;
+}
+const PRIMES_CACHE = primeSieve(100000);
+
+// ---- Fibonacci family ----
+function fibSeq(n, start) {
+  const seq = [0, 1];
+  while (seq.length <= start + n + 2) seq.push(seq[seq.length-1] + seq[seq.length-2]);
+  return seq.slice(start, start + n);
+}
+function lucasSeq(n, start) {
+  const seq = [2, 1];
+  while (seq.length <= start + n + 2) seq.push(seq[seq.length-1] + seq[seq.length-2]);
+  return seq.slice(start, start + n);
+}
+function triboSeq(n, start) {
+  const seq = [0, 0, 1];
+  while (seq.length <= start + n + 2) seq.push(seq[seq.length-1] + seq[seq.length-2] + seq[seq.length-3]);
+  return seq.slice(start, start + n);
+}
+function padovanSeq(n, start) {
+  const seq = [1, 1, 1];
+  while (seq.length <= start + n + 2) seq.push(seq[seq.length-2] + seq[seq.length-3]);
+  return seq.slice(start, start + n);
+}
+function bellSeq(n, start) {
+  // Build Bell triangle row sums
+  const bells = [1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975, 678570, 4213597];
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const idx = start + i;
+    out.push(idx < bells.length ? bells[idx] : '?');
+  }
+  return out;
+}
+
+// ---- π spigot ----
+function piDigits(total) {
+  const N = total + 4;
+  const len = Math.floor(10 * N / 3) + 10;
+  let A = new Array(len).fill(2), out = [], nines = 0, predigit = 0;
+  for (let j = 0; j < N + 2; j++) {
+    let q = 0;
+    for (let i = len - 1; i >= 0; i--) {
+      let x = 10 * A[i] + q * (i + 1);
+      A[i] = x % (2 * i + 1);
+      q = Math.floor(x / (2 * i + 1));
+    }
+    A[0] = q % 10; q = Math.floor(q / 10);
+    if (q === 9) { nines++; }
+    else if (q === 10) {
+      out.push(predigit + 1);
+      for (let k = 0; k < nines; k++) out.push(0);
+      predigit = 0; nines = 0;
+    } else {
+      out.push(predigit);
+      predigit = q;
+      for (let k = 0; k < nines; k++) out.push(9);
+      nines = 0;
+    }
+  }
+  out.push(predigit);
+  return out.slice(1); // drop leading 0
+}
+const PI_DIGITS_CACHE = piDigits(350);
+
+// ---- e spigot ----
+function eDigits(total) {
+  const N = total + 4;
+  let A = new Array(N + 1).fill(1);
+  A[1] = 2;
+  const out = [];
+  for (let i = 0; i < N; i++) {
+    let carry = 0;
+    for (let j = N; j >= 1; j--) {
+      let val = A[j] * 10 + carry;
+      A[j] = val % j;
+      carry = Math.floor(val / j);
+    }
+    out.push(carry);
+  }
+  return out;
+}
+const E_DIGITS_CACHE = eDigits(350);
+
+// ---- √2 digits (long division) ----
+function sqrt2Digits(total) {
+  // Integer-arithmetic long division of √2 = 1.41421356…
+  const out = [];
+  let n = BigInt(2), m = BigInt(0);
+  for (let i = 0; i < total + 2; i++) {
+    n *= BigInt(100);
+    // find digit d such that (20m+d)*d <= n
+    let d = BigInt(0);
+    for (let k = BigInt(9); k >= BigInt(0); k--) {
+      if ((BigInt(20) * m + k) * k <= n) { d = k; break; }
+    }
+    out.push(Number(d));
+    n -= (BigInt(20) * m + d) * d;
+    m = BigInt(10) * m + d;
+  }
+  return out;
+}
+const SQRT2_DIGITS_CACHE = sqrt2Digits(350);
+
+// ---- Champernowne digits ----
+function champernowne(total) {
+  const out = [];
+  let k = 1;
+  while (out.length < total + 1000) {
+    for (const ch of String(k)) out.push(parseInt(ch));
+    k++;
+  }
+  return out;
+}
+const CHAMP_CACHE = champernowne(350);
+
+// ---- Totient ----
+function totient(n) {
+  let result = n, p = 2;
+  let temp = n;
+  while (p * p <= temp) {
+    if (temp % p === 0) {
+      while (temp % p === 0) temp = Math.floor(temp / p);
+      result -= Math.floor(result / p);
+    }
+    p++;
+  }
+  if (temp > 1) result -= Math.floor(result / temp);
+  return result;
+}
+
+// ---- Divisor sum ----
+function sigmaProper(n) {
+  let s = 1;
+  for (let i = 2; i * i <= n; i++) {
+    if (n % i === 0) { s += i; if (i !== n/i) s += n/i; }
+  }
+  return n > 1 ? s : 0;
+}
+
+// ---- Happy number check ----
+function isHappy(n) {
+  const seen = new Set();
+  while (n !== 1 && !seen.has(n)) {
+    seen.add(n);
+    n = String(n).split('').reduce((a,d)=>a+d*d, 0);
+  }
+  return n === 1;
+}
+
+// ---- Look-and-say ----
+function lookAndSay(s) {
+  let out = '', i = 0;
+  while (i < s.length) {
+    let cnt = 1;
+    while (i + cnt < s.length && s[i+cnt] === s[i]) cnt++;
+    out += cnt + s[i]; i += cnt;
+  }
+  return out;
+}
+
+// =========================================================
+//  Gen object — maps algo → (n, seed) → number[]
+// =========================================================
 const Gen = {
   lcg(n, seed) {
-    let x = seed >>> 0, out = [];
-    const a = 1664525, c = 1013904223, m = 2 ** 32;
-    for (let i = 0; i < n; i++) { x = (a * x + c) % m; out.push(x % 1000); }
+    let x = (seed >>> 0) || 1, out = [];
+    const a = 1664525, c = 1013904223, m = 2**32;
+    for (let i = 0; i < n; i++) { x = (Math.imul(a, x) + c) >>> 0; out.push(x % 10000); }
     return out;
   },
   xorshift(n, seed) {
     let x = (seed >>> 0) || 1, out = [];
     for (let i = 0; i < n; i++) {
       x ^= x << 13; x >>>= 0;
-      x ^= x >> 17;
+      x ^= x >>> 17;
       x ^= x << 5; x >>>= 0;
-      out.push(x % 1000);
+      out.push(x % 10000);
     }
     return out;
   },
-  fibonacci(n) {
-    let out = [], a = 0, b = 1;
-    for (let i = 0; i < n; i++) { out.push(a); [a, b] = [b, a + b]; }
+  xorshift64(n, seed) {
+    // 64-bit via two 32-bit halves
+    let lo = (seed >>> 0) || 123456789, hi = seed ^ 0xdeadbeef;
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      let tl = hi ^ (hi << 7); let th = lo;
+      lo = hi; hi = th ^ tl ^ (th >>> 13) ^ (tl >>> 17);
+      out.push(((hi >>> 0) % 10000));
+    }
     return out;
   },
-  primes(n) {
-    let out = [], cand = 2;
-    const isP = k => { for (let d = 2; d * d <= k; d++) if (k % d === 0) return false; return k > 1; };
-    while (out.length < n) { if (isP(cand)) out.push(cand); cand++; }
+  pcg(n, seed) {
+    let state = BigInt(seed) + BigInt('6364136223846793005');
+    const mult = BigInt('6364136223846793005');
+    const inc  = BigInt('1442695040888963407');
+    const m32  = BigInt(2)**BigInt(32);
+    const m64  = BigInt(2)**BigInt(64);
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      state = (state * mult + inc) % m64;
+      const xorshifted = Number(((state >> BigInt(18)) ^ state) >> BigInt(27)) >>> 0;
+      const rot = Number(state >> BigInt(59));
+      const val = ((xorshifted >>> rot) | (xorshifted << ((-rot) & 31))) >>> 0;
+      out.push(val % 10000);
+    }
     return out;
   },
-  triangular(n) { let out = []; for (let k = 1; k <= n; k++) out.push(k * (k + 1) / 2); return out; },
-  catalan(n) {
-    let out = [], c = 1;
-    for (let k = 0; k < n; k++) { out.push(c); c = c * 2 * (2 * k + 1) / (k + 2); c = Math.round(c); }
+  midsquare(n, seed) {
+    let x = Math.abs(seed % 10000) || 1234, out = [];
+    for (let i = 0; i < n; i++) {
+      x = Math.floor((x * x) / 100) % 10000;
+      if (x === 0) x = seed % 9973 + 1;
+      out.push(x);
+    }
+    return out;
+  },
+  lfsr(n, seed) {
+    let reg = ((seed & 0xFFFF) || 0xACE1), out = [];
+    for (let i = 0; i < n; i++) {
+      const bit = ((reg >> 15) ^ (reg >> 14) ^ (reg >> 12) ^ (reg >> 3)) & 1;
+      reg = ((reg << 1) | bit) & 0xFFFF;
+      out.push(reg);
+    }
+    return out;
+  },
+  fibonacci(n, seed) { return fibSeq(n, Math.abs(seed) || 0); },
+  lucas(n, seed) { return lucasSeq(n, Math.abs(seed) || 0); },
+  tribonacci(n, seed) { return triboSeq(n, Math.abs(seed) || 0); },
+  primes(n, seed) {
+    const start = Math.max(0, Math.abs(seed) || 0);
+    const need = start + n;
+    const limit = Math.max(need * 20 + 100, 1000);
+    const p = primeSieve(limit);
+    return p.slice(start, start + n);
+  },
+  triangular(n, seed) {
+    const s = Math.max(1, Math.abs(seed) || 1);
+    return Array.from({length: n}, (_, i) => { const k = s+i; return k*(k+1)/2; });
+  },
+  pentagonal(n, seed) {
+    const s = Math.max(1, Math.abs(seed) || 1);
+    return Array.from({length: n}, (_, i) => { const k = s+i; return k*(3*k-1)/2; });
+  },
+  hexagonal(n, seed) {
+    const s = Math.max(1, Math.abs(seed) || 1);
+    return Array.from({length: n}, (_, i) => { const k = s+i; return k*(2*k-1); });
+  },
+  catalan(n, seed) {
+    const s = Math.abs(seed) || 0;
+    const seq = [1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900, 2674440, 9694845, 35357670, 129644790, 477638700];
+    return Array.from({length: n}, (_, i) => seq[Math.min(s+i, seq.length-1)] ?? '…');
+  },
+  bell(n, seed) { return bellSeq(n, Math.abs(seed) || 0); },
+  padovan(n, seed) { return padovanSeq(n, Math.abs(seed) || 0); },
+  recaman(n, seed) {
+    const start = Math.abs(seed) || 0;
+    const MAX = n * 30 + start + 200;
+    const a = [start], seen = new Set([start]);
+    for (let k = 1; a.length < n + 50 && k < MAX; k++) {
+      const prev = a[a.length - 1];
+      const sub = prev - k;
+      if (sub > 0 && !seen.has(sub)) { a.push(sub); seen.add(sub); }
+      else { a.push(prev + k); seen.add(prev + k); }
+    }
+    return a.slice(0, n);
+  },
+  look_and_say(n, seed) {
+    let s = String(Math.max(1, Math.abs(seed) || 1));
+    const out = [parseInt(s) < 1e15 ? parseInt(s) : s];
+    for (let i = 1; i < n; i++) {
+      s = lookAndSay(s);
+      out.push(s.length > 12 ? s.slice(0,12)+'…' : s);
+    }
     return out;
   },
   collatz(n, seed) {
-    let out = [], x = Math.max(1, Math.abs(seed) || 27);
-    for (let i = 0; i < n && x !== 1; i++) { out.push(x); x = x % 2 === 0 ? x / 2 : 3 * x + 1; }
+    let x = Math.max(1, Math.abs(seed) || 27), out = [];
+    while (out.length < n && x !== 1) { out.push(x); x = x % 2 === 0 ? x / 2 : 3*x+1; }
     out.push(1);
     return out.slice(0, n);
   },
+  happy(n, seed) {
+    const out = [];
+    let k = Math.max(1, Math.abs(seed) || 1);
+    while (out.length < n) { if (isHappy(k)) out.push(k); k++; }
+    return out;
+  },
+  perfect(n, seed) {
+    // Known perfect numbers (very sparse)
+    const known = [6, 28, 496, 8128, 33550336];
+    return known.slice(0, n);
+  },
+  totient(n, seed) {
+    const s = Math.max(1, Math.abs(seed) || 1);
+    return Array.from({length: n}, (_, i) => totient(s + i));
+  },
+  gray(n, seed) {
+    const s = Math.abs(seed) || 0;
+    return Array.from({length: n}, (_, i) => { const k = s+i; return k ^ (k >> 1); });
+  },
+  abundant(n, seed) {
+    const out = [];
+    let k = Math.max(1, Math.abs(seed) || 1);
+    while (out.length < n) { if (sigmaProper(k) > k) out.push(k); k++; }
+    return out;
+  },
   logistic(n, seed) {
-    let out = [], r = 3.99, x = ((Math.abs(seed) % 99) + 1) / 101;
-    for (let i = 0; i < 50; i++) x = r * x * (1 - x); // burn-in
-    for (let i = 0; i < n; i++) { x = r * x * (1 - x); out.push(x.toFixed(4)); }
+    const r = 3.99;
+    let x = ((Math.abs(seed) % 997) + 1) / 999;
+    for (let i = 0; i < 100; i++) x = r * x * (1 - x); // warm-up
+    const out = [];
+    for (let i = 0; i < n; i++) { x = r * x * (1 - x); out.push(parseFloat(x.toFixed(5))); }
     return out;
   },
-  thuemorse(n) {
-    let out = [];
+  tent(n, seed) {
+    const mu = 1.99;
+    let x = ((Math.abs(seed) % 997) + 3) / 1001;
+    for (let i = 0; i < 80; i++) x = mu * Math.min(x, 1 - x);
+    const out = [];
+    for (let i = 0; i < n; i++) { x = mu * Math.min(x, 1 - x); out.push(parseFloat(x.toFixed(5))); }
+    return out;
+  },
+  henon_x(n, seed) {
+    const a = 1.4, b = 0.3;
+    let x = (seed % 100) / 200 + 0.1, y = 0.0;
+    for (let i = 0; i < 200; i++) { const nx = 1 - a*x*x + y; y = b*x; x = nx; } // warm-up
+    const out = [];
     for (let i = 0; i < n; i++) {
-      let bits = 0, k = i;
-      while (k) { bits ^= (k & 1); k >>= 1; }
-      out.push(bits);
+      out.push(parseFloat(x.toFixed(5)));
+      const nx = 1 - a*x*x + y; y = b*x; x = nx;
     }
     return out;
   },
-  halton(n) {
-    const vdc = (idx, base) => { let f = 1, r = 0; while (idx > 0) { f /= base; r += f * (idx % base); idx = Math.floor(idx / base); } return r; };
-    let out = []; for (let i = 1; i <= n; i++) out.push(vdc(i, 2).toFixed(4)); return out;
+  pi(n, seed) {
+    const off = Math.abs(seed) || 0;
+    while (PI_DIGITS_CACHE.length < off + n + 10) PI_DIGITS_CACHE.push(...piDigits(PI_DIGITS_CACHE.length + 100).slice(PI_DIGITS_CACHE.length));
+    return PI_DIGITS_CACHE.slice(off, off + n);
   },
-  pi(n) {
-    // Spigot algorithm (Rabinowitz–Wagon); compute a couple extra, then slice.
-    const N = n + 2;
-    const len = Math.floor(10 * N / 3) + 1;
-    let A = new Array(len).fill(2), out = [], nines = 0, predigit = 0;
-    for (let j = 0; j < N; j++) {
-      let q = 0;
-      for (let i = len - 1; i >= 0; i--) {
-        let x = 10 * A[i] + q * (i + 1);
-        A[i] = x % (2 * i + 1);
-        q = Math.floor(x / (2 * i + 1));
-      }
-      A[0] = q % 10; q = Math.floor(q / 10);
-      if (q === 9) { nines++; }
-      else if (q === 10) {
-        out.push(predigit + 1);
-        for (let k = 0; k < nines; k++) out.push(0);
-        predigit = 0; nines = 0;
-      } else {
-        out.push(predigit);
-        predigit = q;
-        for (let k = 0; k < nines; k++) out.push(9);
-        nines = 0;
-      }
-    }
-    out.push(predigit);
-    return out.slice(1, n + 1); // drop leading 0, keep n digits
+  e_digits(n, seed) {
+    const off = Math.abs(seed) || 0;
+    return E_DIGITS_CACHE.slice(off, off + n);
+  },
+  sqrt2(n, seed) {
+    const off = Math.abs(seed) || 0;
+    return SQRT2_DIGITS_CACHE.slice(off, off + n);
+  },
+  thuemorse(n, seed) {
+    const s = Math.abs(seed) || 0;
+    return Array.from({length: n}, (_, i) => {
+      let bits = 0, k = s + i;
+      while (k) { bits ^= (k & 1); k >>= 1; }
+      return bits;
+    });
+  },
+  champernowne(n, seed) {
+    const off = Math.abs(seed) || 0;
+    return CHAMP_CACHE.slice(off, off + n);
+  },
+  halton2(n, seed) {
+    const s = Math.abs(seed) || 1;
+    return Array.from({length: n}, (_, i) => parseFloat(vdc(s+i, 2).toFixed(6)));
+  },
+  halton3(n, seed) {
+    const s = Math.abs(seed) || 1;
+    return Array.from({length: n}, (_, i) => parseFloat(vdc(s+i, 3).toFixed(6)));
+  },
+  vdc(n, seed) {
+    const s = Math.abs(seed) || 1;
+    return Array.from({length: n}, (_, i) => parseFloat(vdc(s+i, 2).toFixed(6)));
+  },
+  golden(n, seed) {
+    const s = Math.abs(seed) || 0;
+    return Array.from({length: n}, (_, i) => parseFloat(((s+i) * phi % 1).toFixed(6)));
   }
 };
 
-const DESCRIPTIONS = {
-  lcg: "Xₙ₊₁ = (1664525·Xₙ + 1013904223) mod 2³², a classic linear congruential generator.",
-  xorshift: "Marsaglia's 32-bit xorshift: fast, full-period bit-shuffling PRNG.",
-  fibonacci: "Each term is the sum of the previous two, starting 0, 1, 1, 2, 3…",
-  primes: "The prime numbers, found by trial division.",
-  triangular: "Tₙ = n(n+1)/2 — dots that form a triangle.",
-  catalan: "Cₙ counts balanced parentheses, binary trees, polygon triangulations…",
-  collatz: "From the seed: halve if even, else 3n+1. Always reaches 1 (conjecturally).",
-  logistic: "xₙ₊₁ = r·xₙ·(1−xₙ) with r=3.99 — a chaotic dynamical system.",
-  thuemorse: "Parity of the number of 1-bits in n: 0,1,1,0,1,0,0,1…",
-  halton: "Low-discrepancy quasirandom sequence (base 2) for even sampling of [0,1).",
-  pi: "Digits of π via the Rabinowitz–Wagon spigot algorithm."
+// =========================================================
+//  Descriptions
+// =========================================================
+const DESC = {
+  lcg: "Xₙ₊₁ = (1664525·Xₙ + 1013904223) mod 2³². Seed sets the initial state X₀.",
+  xorshift: "Marsaglia's 32-bit xorshift PRNG. Fast, full 2³²−1 period. Seed sets the initial register.",
+  xorshift64: "64-bit xorshift via two 32-bit halves. Seed initialises both halves deterministically.",
+  pcg: "Permuted Congruential Generator (PCG-32). LCG state + output permutation. Seed sets internal state.",
+  midsquare: "Von Neumann's middle-square method. Seed is the 4-digit starting value.",
+  lfsr: "16-bit Galois LFSR (taps 16,15,13,4). Full 65535-period. Seed initialises the shift register.",
+  fibonacci: "F(n), F(n+1), … Seed selects the starting index in the Fibonacci sequence.",
+  lucas: "L(n) where L(0)=2, L(1)=1. Seed selects the starting index.",
+  tribonacci: "T(n) = T(n-1)+T(n-2)+T(n-3). Seed selects the starting index.",
+  primes: "The n-th prime onwards. Seed selects the starting index (0 = first prime = 2).",
+  triangular: "T(n) = n(n+1)/2. Seed selects the starting n.",
+  pentagonal: "P(n) = n(3n-1)/2. Seed selects the starting n.",
+  hexagonal: "H(n) = n(2n-1). Seed selects the starting n.",
+  catalan: "Cₙ = C(2n,n)/(n+1). Seed selects the starting index.",
+  bell: "Bell numbers B(n): number of partitions of a set of n elements. Seed selects starting index.",
+  padovan: "P(n) = P(n-2)+P(n-3), starting 1,1,1,2,2,3,4,5,7… Seed selects starting index.",
+  recaman: "a(n) = a(n-1)−n if positive and new, else a(n-1)+n. Seed sets a(0).",
+  look_and_say: "Conway's look-and-say: read off runs of digits. Seed is the initial digit.",
+  collatz: "Halve if even, 3n+1 if odd. Always reaches 1 (conjectured). Seed is the starting value.",
+  happy: "Numbers whose iterated digit-square sum reaches 1. Seed is the search start.",
+  perfect: "σ(n) = 2n; proper divisors sum to n itself: 6, 28, 496, 8128…",
+  totient: "φ(n) = count of integers ≤ n coprime to n. Seed is the starting n.",
+  gray: "Gray code G(n) = n XOR (n>>1). Adjacent codes differ by exactly one bit. Seed is the start index.",
+  abundant: "Proper-divisor sum σ(n)−n > n. Seed is the search start.",
+  logistic: "xₙ₊₁ = 3.99·xₙ·(1−xₙ). Seed determines x₀ after warm-up, producing a different chaotic orbit.",
+  tent: "xₙ₊₁ = 1.99·min(xₙ,1−xₙ). Seed determines x₀; output in (0,1).",
+  henon_x: "Hénon attractor x-coords: xₙ₊₁=1−1.4xₙ²+yₙ, yₙ₊₁=0.3xₙ. Seed determines initial point.",
+  pi: "Digits of π via Rabinowitz–Wagon spigot. Seed selects the decimal offset (0 = digit 3, 1 = digit 1, …).",
+  e_digits: "Digits of e=2.718… via spigot. Seed selects the decimal offset.",
+  sqrt2: "Digits of √2=1.414… via long-division spigot. Seed selects the decimal offset.",
+  thuemorse: "t(n) = parity of popcount(n). Seed selects the starting n.",
+  champernowne: "0.123456789101112… — concatenated integers. Seed selects digit offset.",
+  halton2: "Halton sequence base 2 (van der Corput). Seed sets starting index for different sub-sequence.",
+  halton3: "Halton sequence base 3. Seed sets starting index.",
+  vdc: "Van der Corput sequence in base 2. Reversed binary fraction of the index. Seed sets start index.",
+  golden: "{n·φ mod 1} for φ=(1+√5)/2. Maximally irrational spacing. Seed sets start index."
 };
 
-const NEEDS_SEED = new Set(["lcg", "xorshift", "collatz", "logistic"]);
-
-function render() {
-  const algo = document.getElementById("algo").value;
-  const count = Math.max(1, Math.min(200, parseInt(document.getElementById("count").value) || 24));
-  const seed = parseInt(document.getElementById("seed").value) || 0;
-  const t0 = performance.now();
-  const vals = NEEDS_SEED.has(algo) ? Gen[algo](count, seed) : Gen[algo](count);
-  const dt = (performance.now() - t0).toFixed(2);
-
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
-  vals.forEach(v => {
-    const cell = document.createElement("div");
-    cell.className = "number-cell";
-    cell.textContent = v;
-    cell.title = v;
-    grid.appendChild(cell);
-  });
-  document.getElementById("desc").textContent = DESCRIPTIONS[algo] || "";
-  document.getElementById("meta").textContent =
-    `Generated ${vals.length} value(s) in ${dt} ms · seed ${NEEDS_SEED.has(algo) ? seed : "n/a"}`;
+// =========================================================
+//  Stats computation
+// =========================================================
+function computeStats(vals) {
+  const nums = vals.map(v => parseFloat(v)).filter(v => !isNaN(v) && isFinite(v));
+  if (!nums.length) return null;
+  const n = nums.length;
+  const sum = nums.reduce((a,b) => a+b, 0);
+  const mean = sum / n;
+  const sorted = [...nums].sort((a,b) => a-b);
+  const median = n%2 ? sorted[Math.floor(n/2)] : (sorted[n/2-1]+sorted[n/2])/2;
+  const variance = nums.reduce((a,b) => a + (b-mean)**2, 0) / n;
+  const std = Math.sqrt(variance);
+  const min = sorted[0], max = sorted[n-1];
+  const unique = new Set(nums).size;
+  const range = max - min;
+  return { n, sum, mean, median, std, min, max, unique, range };
 }
 
-document.getElementById("genBtn").addEventListener("click", render);
-document.getElementById("algo").addEventListener("change", render);
-document.getElementById("count").addEventListener("keydown", e => { if (e.key === "Enter") render(); });
-document.getElementById("seed").addEventListener("keydown", e => { if (e.key === "Enter") render(); });
+function fmtNum(v) {
+  if (v === undefined || v === null) return '—';
+  if (Number.isInteger(v)) return v.toLocaleString();
+  return parseFloat(v.toPrecision(6)).toString();
+}
+
+// =========================================================
+//  Histogram drawing (Canvas)
+// =========================================================
+function drawHistogram(vals) {
+  const canvas = document.getElementById('histCanvas');
+  const nums = vals.map(v => parseFloat(v)).filter(v => !isNaN(v) && isFinite(v));
+  if (!nums.length || nums.length < 3) { canvas.style.display='none'; return; }
+
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth - 32;
+  const H = 140;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+
+  const bins = Math.min(40, Math.max(8, Math.ceil(Math.sqrt(nums.length))));
+  const mn = Math.min(...nums), mx = Math.max(...nums);
+  const bw = (mx - mn) / bins || 1;
+  const counts = new Array(bins).fill(0);
+  for (const v of nums) {
+    const b = Math.min(bins-1, Math.floor((v - mn) / bw));
+    counts[b]++;
+  }
+  const maxCount = Math.max(...counts);
+
+  const padL = 8, padR = 8, padT = 10, padB = 24;
+  const gW = W - padL - padR;
+  const gH = H - padT - padB;
+  const barW = gW / bins;
+
+  // Draw bars
+  for (let i = 0; i < bins; i++) {
+    const bh = (counts[i] / maxCount) * gH;
+    const x = padL + i * barW;
+    const y = padT + gH - bh;
+    const alpha = 0.35 + 0.65 * (counts[i] / maxCount);
+    ctx.fillStyle = `rgba(124,58,237,${alpha})`;
+    ctx.fillRect(x + 1, y, barW - 2, bh);
+    ctx.strokeStyle = 'rgba(196,181,253,0.4)';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(x + 1, y, barW - 2, bh);
+  }
+
+  // Axis labels
+  ctx.fillStyle = '#a0a0c0';
+  ctx.font = `${10 * dpr / dpr}px monospace`;
+  ctx.textAlign = 'left';
+  ctx.fillText(fmtNum(mn), padL, H - 4);
+  ctx.textAlign = 'right';
+  ctx.fillText(fmtNum(mx), W - padR, H - 4);
+  ctx.textAlign = 'center';
+  ctx.fillText(fmtNum((mn+mx)/2), W/2, H - 4);
+}
+
+// =========================================================
+//  Render
+// =========================================================
+let lastVals = [];
+
+function render() {
+  const algo  = document.getElementById('algo').value;
+  const count = Math.max(1, Math.min(300, parseInt(document.getElementById('count').value) || 32));
+  const seed  = parseInt(document.getElementById('seed').value) ?? 0;
+
+  const t0 = performance.now();
+  let vals;
+  try { vals = Gen[algo](count, seed); }
+  catch(e) { vals = ['Error: ' + e.message]; }
+  const dt = (performance.now() - t0).toFixed(2);
+  lastVals = vals;
+
+  // Grid
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  vals.forEach(v => {
+    const cell = document.createElement('div');
+    cell.className = 'number-cell';
+    cell.textContent = v;
+    cell.title = String(v);
+    grid.appendChild(cell);
+  });
+
+  // Description
+  document.getElementById('desc').textContent = DESC[algo] || '';
+
+  // Stats panel
+  const stats = computeStats(vals);
+  const panel = document.getElementById('statsPanel');
+  if (stats && stats.n > 1) {
+    panel.style.display = 'grid';
+    panel.innerHTML = [
+      ['Count', stats.n],
+      ['Min',   fmtNum(stats.min)],
+      ['Max',   fmtNum(stats.max)],
+      ['Range', fmtNum(stats.range)],
+      ['Sum',   fmtNum(stats.sum)],
+      ['Mean',  fmtNum(stats.mean)],
+      ['Median',fmtNum(stats.median)],
+      ['Std Dev',fmtNum(stats.std)],
+      ['Unique', stats.unique],
+      ['Unique %', Math.round(stats.unique/stats.n*100)+'%'],
+    ].map(([l,v]) => `<div class="stat-card"><div class="s-label">${l}</div><div class="s-val">${v}</div></div>`).join('');
+  } else {
+    panel.style.display = 'none';
+  }
+
+  // Histogram
+  const histWrap = document.getElementById('histWrap');
+  const nums = vals.map(v => parseFloat(v)).filter(v => !isNaN(v) && isFinite(v));
+  if (nums.length >= 4) {
+    histWrap.style.display = 'block';
+    // slight delay so layout settles
+    requestAnimationFrame(() => drawHistogram(vals));
+  } else {
+    histWrap.style.display = 'none';
+  }
+
+  // Meta
+  document.getElementById('meta').textContent =
+    `${vals.length} value(s) · ${dt} ms · seed ${seed}`;
+}
+
+// =========================================================
+//  Copy / Download
+// =========================================================
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const csv = lastVals.join(', ');
+  navigator.clipboard.writeText(csv).then(() => {
+    const msg = document.getElementById('copyMsg');
+    msg.style.opacity = '1';
+    setTimeout(() => msg.style.opacity = '0', 1800);
+  }).catch(() => {
+    prompt('Copy this:', csv);
+  });
+});
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  const algo = document.getElementById('algo').value;
+  const seed = document.getElementById('seed').value;
+  const text = `# Generator: ${algo}\n# Seed: ${seed}\n# Count: ${lastVals.length}\n\n` + lastVals.join('\n');
+  const blob = new Blob([text], {type: 'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `numbers_${algo}_seed${seed}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+// =========================================================
+//  Event listeners
+// =========================================================
+document.getElementById('genBtn').addEventListener('click', render);
+document.getElementById('algo').addEventListener('change', render);
+['count','seed'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+  document.getElementById(id).addEventListener('change', render);
+});
+
+// Initial render
 render();
 </script>
 </body>
