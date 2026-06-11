@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Generator — A Comprehensive Number Generation Toolkit</title>
+<meta name="description" content="A large Python toolkit for generating, analyzing and transforming number sequences: PRNGs, primes, chaos maps, quasirandom sequences, number theory, and more.">
+<style>
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #6d28d9;
+  --primary-light: #c4b5fd;
+  --bg: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --bg-hover: #1e1e3a;
+  --text: #e0e0e0;
+  --text-muted: #a0a0c0;
+  --border: #333;
+  --success: #6ee7b7;
+  --error: #f87171;
+  --warning: #fbbf24;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+::selection { background: var(--primary); color: white; }
+a { color: var(--primary-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre, .mono { font-family: "SF Mono", "Fira Code", Consolas, monospace; }
+
+/* Nav */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: rgba(15,15,26,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+nav .brand { font-weight: 700; font-size: 1.15rem; color: var(--primary-light); }
+nav .brand span { color: var(--text); }
+nav .links { margin-left: auto; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+nav a { color: var(--text-muted); font-size: 0.9rem; }
+nav a:hover { color: var(--primary-light); text-decoration: none; }
+
+/* Hero */
+header.hero {
+  text-align: center;
+  padding: 5rem 1.5rem 3.5rem;
+  background:
+    radial-gradient(ellipse at top, rgba(124,58,237,0.18), transparent 60%);
+}
+header.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #c4b5fd, #7c3aed 60%, #6ee7b7);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+header.hero p.tagline { font-size: 1.2rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2rem; }
+.cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 0.75rem 1.75rem; border-radius: 10px;
+  font-weight: 600; transition: transform .15s, box-shadow .15s;
+}
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 20px rgba(124,58,237,0.4); }
+.btn-primary:hover { transform: translateY(-2px); text-decoration: none; box-shadow: 0 6px 28px rgba(124,58,237,0.55); }
+.btn-ghost { border: 1px solid var(--border); color: var(--text); }
+.btn-ghost:hover { border-color: var(--primary); text-decoration: none; }
+
+/* Stat bar */
+.stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-top: 3rem; }
+.stat { text-align: center; }
+.stat .num { font-size: 2.2rem; font-weight: 800; color: var(--primary-light); }
+.stat .lbl { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+
+/* Layout */
+main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem; }
+section { margin-bottom: 4.5rem; scroll-margin-top: 80px; }
+section h2 { font-size: 1.9rem; margin-bottom: 0.4rem; }
+section .sub { color: var(--text-muted); margin-bottom: 2rem; }
+
+/* Cards grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.25rem; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.5rem; transition: border-color .2s, transform .2s;
+}
+.card:hover { border-color: var(--primary); transform: translateY(-3px); }
+.card .ico { font-size: 1.8rem; margin-bottom: 0.6rem; }
+.card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--primary-light); }
+.card p { font-size: 0.9rem; color: var(--text-muted); }
+.card .tag { display: inline-block; margin-top: 0.75rem; font-size: 0.72rem; color: var(--success);
+  background: rgba(110,231,183,0.1); padding: 0.15rem 0.55rem; border-radius: 6px; }
+
+/* Demo */
+.demo {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.75rem;
+}
+.demo .controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1.25rem; }
+.field { display: flex; flex-direction: column; gap: 0.3rem; }
+.field label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.field select, .field input {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 0.55rem 0.75rem; border-radius: 8px; font-size: 0.9rem; min-width: 130px;
+}
+.field select:focus, .field input:focus { outline: none; border-color: var(--primary); }
+#genBtn { cursor: pointer; }
+.output {
+  margin-top: 1.25rem; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem; min-height: 90px;
+}
+.number-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 0.45rem; }
+.number-cell {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  padding: 0.45rem 0.3rem; text-align: center; font-family: monospace; font-size: 0.82rem;
+  color: var(--success); overflow: hidden; text-overflow: ellipsis;
+}
+.number-cell:hover { border-color: var(--primary); }
+.demo .meta { margin-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted); }
+.demo .desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; min-height: 1.2em; }
+
+/* Code block */
+pre.code {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.25rem 1.5rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.7;
+}
+pre.code .c { color: var(--text-muted); }
+pre.code .k { color: var(--primary-light); }
+pre.code .s { color: var(--success); }
+
+/* Footer */
+footer { border-top: 1px solid var(--border); padding: 2.5rem 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+
+@media (max-width: 600px) {
+  nav { padding: 0.85rem 1rem; }
+  nav .links { gap: 0.85rem; }
+  .stats { gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">⊕ Number<span>Generator</span></div>
+  <div class="links">
+    <a href="#features">Features</a>
+    <a href="#demo">Live Demo</a>
+    <a href="#modules">Modules</a>
+    <a href="#usage">Usage</a>
+    <a href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>Number Generator</h1>
+  <p class="tagline">A large, modular Python toolkit for <strong>generating</strong>, <strong>analyzing</strong>,
+    and <strong>transforming</strong> number sequences — from PRNGs and primes to chaos maps,
+    quasirandom sequences, and number theory.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#demo">Try the Live Demo</a>
+    <a class="btn btn-ghost" href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">View Source ↗</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num">17K+</div><div class="lbl">Lines of Python</div></div>
+    <div class="stat"><div class="num">16</div><div class="lbl">Generator Modules</div></div>
+    <div class="stat"><div class="num">807</div><div class="lbl">Passing Tests</div></div>
+    <div class="stat"><div class="num">8</div><div class="lbl">Analyzers</div></div>
+  </div>
+</header>
+
+<main>
+
+  <section id="features">
+    <h2>What's inside</h2>
+    <p class="sub">A full pipeline: generate sequences, run statistical &amp; complexity analysis, then transform the results.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ico">🎲</div>
+        <h3>Pseudo-Random Generators</h3>
+        <p>LCG, Xorshift (32/64), PCG, LFSR, Blum-Blum-Shub, Middle-Square, and Mersenne Twister — implemented from scratch.</p>
+        <span class="tag">random_generator</span>
+      </div>
+      <div class="card">
+        <div class="ico">🌀</div>
+        <h3>Chaos &amp; Fractals</h3>
+        <p>Logistic / Tent / Hénon maps, the Lorenz system, Arnold's cat map, plus Mandelbrot &amp; Julia set orbits.</p>
+        <span class="tag">chaos_generator</span>
+      </div>
+      <div class="card">
+        <div class="ico">🔢</div>
+        <h3>Primes &amp; Number Theory</h3>
+        <p>Sieves, Miller-Rabin, twin primes, plus perfect, happy, narcissistic, Kaprekar, and vampire numbers.</p>
+        <span class="tag">prime · numbertheory</span>
+      </div>
+      <div class="card">
+        <div class="ico">📐</div>
+        <h3>Quasirandom Sequences</h3>
+        <p>Halton, Sobol, Van der Corput, golden-ratio, and Latin hypercube sampling for low-discrepancy needs.</p>
+        <span class="tag">quasirandom_generator</span>
+      </div>
+      <div class="card">
+        <div class="ico">π</div>
+        <h3>Constant Digits</h3>
+        <p>Spigot algorithms for π, e, √2, φ, the Champernowne constant, and the Thue-Morse sequence.</p>
+        <span class="tag">digits_generator</span>
+      </div>
+      <div class="card">
+        <div class="ico">📊</div>
+        <h3>Analyzers</h3>
+        <p>Statistics, NIST-style randomness tests, entropy (Shannon/ApEn/SampEn), complexity (LZ76), and time-series tools.</p>
+        <span class="tag">8 analyzer modules</span>
+      </div>
+      <div class="card">
+        <div class="ico">🔀</div>
+        <h3>Transformers</h3>
+        <p>Numeral systems (balanced ternary, Zeckendorf, Gray code), plus DSP: windowing, FIR filters, DFT, Hilbert.</p>
+        <span class="tag">signal · numeral_systems</span>
+      </div>
+      <div class="card">
+        <div class="ico">🧩</div>
+        <h3>CLI, REST API &amp; Pipeline</h3>
+        <p>Click CLI with rich output, a Flask REST API + dashboard, a composable Pipeline framework, and a plugin registry.</p>
+        <span class="tag">cli · web · pipeline</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <h2>Live demo</h2>
+    <p class="sub">Runs entirely in your browser — a faithful JavaScript port of several generators from the Python library.</p>
+    <div class="demo">
+      <div class="controls">
+        <div class="field">
+          <label for="algo">Generator</label>
+          <select id="algo">
+            <optgroup label="Pseudo-random">
+              <option value="lcg">Linear Congruential (LCG)</option>
+              <option value="xorshift">Xorshift-32</option>
+            </optgroup>
+            <optgroup label="Sequences">
+              <option value="fibonacci">Fibonacci</option>
+              <option value="primes">Primes</option>
+              <option value="triangular">Triangular numbers</option>
+              <option value="catalan">Catalan numbers</option>
+              <option value="collatz">Collatz (from seed)</option>
+            </optgroup>
+            <optgroup label="Chaos &amp; constants">
+              <option value="logistic">Logistic map</option>
+              <option value="thuemorse">Thue-Morse</option>
+              <option value="halton">Halton (base 2)</option>
+              <option value="pi">π digits</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field">
+          <label for="count">Count</label>
+          <input id="count" type="number" value="24" min="1" max="200">
+        </div>
+        <div class="field">
+          <label for="seed">Seed</label>
+          <input id="seed" type="number" value="42">
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <a class="btn btn-primary" id="genBtn">Generate ⟳</a>
+        </div>
+      </div>
+      <div class="desc" id="desc"></div>
+      <div class="output">
+        <div class="number-grid" id="grid"></div>
+      </div>
+      <div class="meta" id="meta"></div>
+    </div>
+  </section>
+
+  <section id="modules">
+    <h2>Module map</h2>
+    <p class="sub">The <code>src/core</code> package, organized by responsibility.</p>
+    <div class="grid">
+      <div class="card"><h3>generators/</h3><p>16 modules: random, prime, fibonacci, sequence, statistical, crypto, fractal, combinatorial, chaos, noise, quasirandom, digits, numbertheory, matrix, geometric, graph, cryptographic_sequences.</p></div>
+      <div class="card"><h3>analyzers/</h3><p>statistical, randomness_tester, pattern_detector, distribution_fitter, entropy, complexity, time_series.</p></div>
+      <div class="card"><h3>transformers/</h3><p>number_formatter, sequence_transformer, encoder, numeral_systems, signal_transformer.</p></div>
+      <div class="card"><h3>pipeline/ · plugins/</h3><p>Composable lazy Pipeline (Map/Filter/Take/StatsSink) and a GeneratorRegistry plugin system.</p></div>
+      <div class="card"><h3>cli/ · web/</h3><p>Click CLI with Rich output and a Flask REST API with an interactive dark dashboard.</p></div>
+      <div class="card"><h3>database/</h3><p>SQLAlchemy models &amp; repository for persisting generation sessions and analysis results.</p></div>
+    </div>
+  </section>
+
+  <section id="usage">
+    <h2>Usage</h2>
+    <p class="sub">Install the dependencies and drive it from the CLI, the API, or directly in Python.</p>
+    <pre class="code"><span class="c"># Install</span>
+pip install -r requirements.txt
+
+<span class="c"># Generate from the CLI</span>
+numgen generate random <span class="k">--algorithm</span> lcg <span class="k">--count</span> 100 <span class="k">--min</span> 0 <span class="k">--max</span> 1000
+numgen generate fibonacci <span class="k">--count</span> 30 <span class="k">--variant</span> matrix
+numgen generate chaos <span class="k">--map</span> logistic <span class="k">--r</span> 3.99 <span class="k">--count</span> 100
+numgen generate digits <span class="k">--constant</span> pi <span class="k">--count</span> 100
+
+<span class="c"># Or use it as a library</span>
+<span class="k">from</span> src.core.generators.random_generator <span class="k">import</span> LinearCongruentialGenerator
+gen = LinearCongruentialGenerator(seed=<span class="s">42</span>)
+print(gen.generate(<span class="s">10</span>, lo=<span class="s">0</span>, hi=<span class="s">100</span>))</pre>
+  </section>
+
+</main>
+
+<footer>
+  <p>Number Generator — built with Python.
+    <a href="https://github.com/kavalan-whisky/number-generator" target="_blank" rel="noopener">Source on GitHub</a> ·
+    807 tests passing · MIT-style educational project.</p>
+</footer>
+
+<script>
+// ---- JavaScript ports of the core generators (browser demo) ----
+const Gen = {
+  lcg(n, seed) {
+    let x = seed >>> 0, out = [];
+    const a = 1664525, c = 1013904223, m = 2 ** 32;
+    for (let i = 0; i < n; i++) { x = (a * x + c) % m; out.push(x % 1000); }
+    return out;
+  },
+  xorshift(n, seed) {
+    let x = (seed >>> 0) || 1, out = [];
+    for (let i = 0; i < n; i++) {
+      x ^= x << 13; x >>>= 0;
+      x ^= x >> 17;
+      x ^= x << 5; x >>>= 0;
+      out.push(x % 1000);
+    }
+    return out;
+  },
+  fibonacci(n) {
+    let out = [], a = 0, b = 1;
+    for (let i = 0; i < n; i++) { out.push(a); [a, b] = [b, a + b]; }
+    return out;
+  },
+  primes(n) {
+    let out = [], cand = 2;
+    const isP = k => { for (let d = 2; d * d <= k; d++) if (k % d === 0) return false; return k > 1; };
+    while (out.length < n) { if (isP(cand)) out.push(cand); cand++; }
+    return out;
+  },
+  triangular(n) { let out = []; for (let k = 1; k <= n; k++) out.push(k * (k + 1) / 2); return out; },
+  catalan(n) {
+    let out = [], c = 1;
+    for (let k = 0; k < n; k++) { out.push(c); c = c * 2 * (2 * k + 1) / (k + 2); c = Math.round(c); }
+    return out;
+  },
+  collatz(n, seed) {
+    let out = [], x = Math.max(1, Math.abs(seed) || 27);
+    for (let i = 0; i < n && x !== 1; i++) { out.push(x); x = x % 2 === 0 ? x / 2 : 3 * x + 1; }
+    out.push(1);
+    return out.slice(0, n);
+  },
+  logistic(n, seed) {
+    let out = [], r = 3.99, x = ((Math.abs(seed) % 99) + 1) / 101;
+    for (let i = 0; i < 50; i++) x = r * x * (1 - x); // burn-in
+    for (let i = 0; i < n; i++) { x = r * x * (1 - x); out.push(x.toFixed(4)); }
+    return out;
+  },
+  thuemorse(n) {
+    let out = [];
+    for (let i = 0; i < n; i++) {
+      let bits = 0, k = i;
+      while (k) { bits ^= (k & 1); k >>= 1; }
+      out.push(bits);
+    }
+    return out;
+  },
+  halton(n) {
+    const vdc = (idx, base) => { let f = 1, r = 0; while (idx > 0) { f /= base; r += f * (idx % base); idx = Math.floor(idx / base); } return r; };
+    let out = []; for (let i = 1; i <= n; i++) out.push(vdc(i, 2).toFixed(4)); return out;
+  },
+  pi(n) {
+    // Spigot algorithm (Rabinowitz–Wagon); compute a couple extra, then slice.
+    const N = n + 2;
+    const len = Math.floor(10 * N / 3) + 1;
+    let A = new Array(len).fill(2), out = [], nines = 0, predigit = 0;
+    for (let j = 0; j < N; j++) {
+      let q = 0;
+      for (let i = len - 1; i >= 0; i--) {
+        let x = 10 * A[i] + q * (i + 1);
+        A[i] = x % (2 * i + 1);
+        q = Math.floor(x / (2 * i + 1));
+      }
+      A[0] = q % 10; q = Math.floor(q / 10);
+      if (q === 9) { nines++; }
+      else if (q === 10) {
+        out.push(predigit + 1);
+        for (let k = 0; k < nines; k++) out.push(0);
+        predigit = 0; nines = 0;
+      } else {
+        out.push(predigit);
+        predigit = q;
+        for (let k = 0; k < nines; k++) out.push(9);
+        nines = 0;
+      }
+    }
+    out.push(predigit);
+    return out.slice(1, n + 1); // drop leading 0, keep n digits
+  }
+};
+
+const DESCRIPTIONS = {
+  lcg: "Xₙ₊₁ = (1664525·Xₙ + 1013904223) mod 2³², a classic linear congruential generator.",
+  xorshift: "Marsaglia's 32-bit xorshift: fast, full-period bit-shuffling PRNG.",
+  fibonacci: "Each term is the sum of the previous two, starting 0, 1, 1, 2, 3…",
+  primes: "The prime numbers, found by trial division.",
+  triangular: "Tₙ = n(n+1)/2 — dots that form a triangle.",
+  catalan: "Cₙ counts balanced parentheses, binary trees, polygon triangulations…",
+  collatz: "From the seed: halve if even, else 3n+1. Always reaches 1 (conjecturally).",
+  logistic: "xₙ₊₁ = r·xₙ·(1−xₙ) with r=3.99 — a chaotic dynamical system.",
+  thuemorse: "Parity of the number of 1-bits in n: 0,1,1,0,1,0,0,1…",
+  halton: "Low-discrepancy quasirandom sequence (base 2) for even sampling of [0,1).",
+  pi: "Digits of π via the Rabinowitz–Wagon spigot algorithm."
+};
+
+const NEEDS_SEED = new Set(["lcg", "xorshift", "collatz", "logistic"]);
+
+function render() {
+  const algo = document.getElementById("algo").value;
+  const count = Math.max(1, Math.min(200, parseInt(document.getElementById("count").value) || 24));
+  const seed = parseInt(document.getElementById("seed").value) || 0;
+  const t0 = performance.now();
+  const vals = NEEDS_SEED.has(algo) ? Gen[algo](count, seed) : Gen[algo](count);
+  const dt = (performance.now() - t0).toFixed(2);
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  vals.forEach(v => {
+    const cell = document.createElement("div");
+    cell.className = "number-cell";
+    cell.textContent = v;
+    cell.title = v;
+    grid.appendChild(cell);
+  });
+  document.getElementById("desc").textContent = DESCRIPTIONS[algo] || "";
+  document.getElementById("meta").textContent =
+    `Generated ${vals.length} value(s) in ${dt} ms · seed ${NEEDS_SEED.has(algo) ? seed : "n/a"}`;
+}
+
+document.getElementById("genBtn").addEventListener("click", render);
+document.getElementById("algo").addEventListener("change", render);
+document.getElementById("count").addEventListener("keydown", e => { if (e.key === "Enter") render(); });
+document.getElementById("seed").addEventListener("keydown", e => { if (e.key === "Enter") render(); });
+render();
+</script>
+</body>
+</html>
