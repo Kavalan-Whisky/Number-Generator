@@ -34,8 +34,10 @@ from src.cli.commands.generate import generate
 from src.cli.commands.analyze import analyze
 from src.cli.commands.transform import transform
 from src.cli.commands.export import export
+from src.cli.commands.plugins import plugins
 
 cli.add_command(generate)
+cli.add_command(plugins)
 cli.add_command(analyze)
 cli.add_command(transform)
 cli.add_command(export)

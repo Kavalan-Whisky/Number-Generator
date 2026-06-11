@@ -393,3 +393,176 @@ def algorithms():
 def health():
     """Health check endpoint."""
     return jsonify({"status": "ok", "service": "number-generator"})
+
+
+# ---- Chaos ----
+
+@api_bp.route("/generate/chaos", methods=["GET", "POST"])
+def generate_chaos():
+    """Generate numbers from chaotic maps (logistic, tent, henon, lorenz, arnold)."""
+    from src.core.generators.chaos_generator import ChaosGeneratorFactory
+
+    params = request.get_json(silent=True) or request.args
+    map_name = params.get("map", "logistic")
+    count = int(params.get("count", 100))
+    discard = int(params.get("discard", 100))
+
+    if count > 100000:
+        return _error_response("count exceeds maximum of 100000")
+
+    kwargs = {}
+    if map_name == "logistic" and "r" in params:
+        kwargs["r"] = float(params["r"])
+
+    try:
+        numbers = ChaosGeneratorFactory.generate(map_name, count, discard, **kwargs)
+        return jsonify(_success_response(
+            {"numbers": [round(x, 8) for x in numbers], "map": map_name},
+            count=count
+        ))
+    except Exception as e:
+        return _error_response(str(e))
+
+
+# ---- Noise ----
+
+@api_bp.route("/generate/noise", methods=["GET", "POST"])
+def generate_noise():
+    """Generate noise sequences (perlin, value, white, pink, brown, walk, bridge)."""
+    from src.core.generators.noise_generator import NoiseGeneratorFactory
+
+    params = request.get_json(silent=True) or request.args
+    noise_type = params.get("type", "perlin")
+    count = int(params.get("count", 100))
+    seed = params.get("seed")
+    seed = int(seed) if seed is not None else None
+
+    if count > 100000:
+        return _error_response("count exceeds maximum of 100000")
+
+    try:
+        numbers = NoiseGeneratorFactory.generate(noise_type, count, seed=seed)
+        return jsonify(_success_response(
+            {"numbers": [round(x, 8) for x in numbers], "type": noise_type},
+            count=count
+        ))
+    except Exception as e:
+        return _error_response(str(e))
+
+
+# ---- Quasi-random ----
+
+@api_bp.route("/generate/quasirandom", methods=["GET", "POST"])
+def generate_quasirandom():
+    """Generate low-discrepancy sequences (halton, sobol, van_der_corput, golden, lhs)."""
+    from src.core.generators.quasirandom_generator import QuasiRandomFactory
+
+    params = request.get_json(silent=True) or request.args
+    sequence = params.get("sequence", "halton")
+    count = int(params.get("count", 50))
+
+    if count > 100000:
+        return _error_response("count exceeds maximum of 100000")
+
+    kwargs = {}
+    if "base" in params:
+        kwargs["base"] = int(params["base"])
+    if "dimensions" in params:
+        kwargs["dimensions"] = int(params["dimensions"])
+
+    try:
+        values = QuasiRandomFactory.generate(sequence, count, **kwargs)
+        return jsonify(_success_response(
+            {"values": values, "sequence": sequence},
+            count=count
+        ))
+    except Exception as e:
+        return _error_response(str(e))
+
+
+# ---- Digits of constants ----
+
+@api_bp.route("/generate/digits", methods=["GET", "POST"])
+def generate_digits():
+    """Generate digits of mathematical constants (pi, e, sqrt2, phi, champernowne, thue_morse)."""
+    from src.core.generators.digits_generator import DigitsGeneratorFactory
+
+    params = request.get_json(silent=True) or request.args
+    constant = params.get("constant", "pi")
+    count = int(params.get("count", 100))
+
+    if count > 10000:
+        return _error_response("count exceeds maximum of 10000")
+
+    try:
+        digits = DigitsGeneratorFactory.generate(constant, count)
+        return jsonify(_success_response(
+            {"digits": digits, "constant": constant,
+             "string": "".join(str(d) for d in digits)},
+            count=count
+        ))
+    except Exception as e:
+        return _error_response(str(e))
+
+
+# ---- Special number-theory numbers ----
+
+@api_bp.route("/generate/special", methods=["GET", "POST"])
+def generate_special():
+    """Generate special numbers (perfect, happy, kaprekar, harshad, ...)."""
+    from src.core.generators.numbertheory_generator import NumberTheoryFactory
+
+    params = request.get_json(silent=True) or request.args
+    number_type = params.get("type", "happy")
+    count = int(params.get("count", 20))
+    start = params.get("start")
+    start = int(start) if start is not None else None
+
+    if count > 1000:
+        return _error_response("count exceeds maximum of 1000")
+
+    try:
+        numbers = NumberTheoryFactory.generate(number_type, count, start)
+        return jsonify(_success_response(
+            {"numbers": numbers, "type": number_type},
+            count=len(numbers)
+        ))
+    except Exception as e:
+        return _error_response(str(e))
+
+
+# ---- Entropy analysis ----
+
+@api_bp.route("/analyze/entropy", methods=["POST"])
+def analyze_entropy():
+    """Entropy analysis: Shannon/min/collision entropy, ApEn, SampEn, LZ, compression."""
+    from src.core.analyzers.entropy_analyzer import EntropyAnalyzer
+
+    body = request.get_json(silent=True)
+    if not body:
+        return _error_response("Request body required")
+
+    data = body.get("data", [])
+    if not data:
+        return _error_response("'data' field is required")
+    if len(data) > 10000:
+        return _error_response("data exceeds maximum of 10000 elements")
+
+    try:
+        analyzer = EntropyAnalyzer(m=int(body.get("m", 2)))
+        report = analyzer.analyze(data)
+        return jsonify(_success_response(report))
+    except Exception as e:
+        return _error_response(str(e))
+
+
+# ---- Plugins ----
+
+@api_bp.route("/plugins", methods=["GET"])
+def plugins_list():
+    """List all registered generator plugins with metadata."""
+    from src.core.plugins import list_generators
+
+    category = request.args.get("category")
+    gens = list_generators(category)
+    return jsonify(_success_response({"generators": gens}, count=len(gens)))

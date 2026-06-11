@@ -244,3 +244,127 @@ def crypto(token_type: str, count: int, length: int):
     for i, t in enumerate(tokens):
         table.add_row(str(i + 1), str(t))
     console.print(table)
+
+
+@generate.command()
+@click.option("--map", "map_name", default="logistic",
+              type=click.Choice(["logistic", "tent", "henon", "lorenz", "arnold"]),
+              help="Chaotic map to use")
+@click.option("--r", "r_param", default=3.99, type=float, help="Control parameter (logistic map)")
+@click.option("--count", "-n", default=100, type=int)
+@click.option("--discard", default=100, type=int, help="Transient iterations to discard")
+@click.option("--format", "fmt", default="table",
+              type=click.Choice(["table", "json", "csv", "plain"]))
+def chaos(map_name: str, r_param: float, count: int, discard: int, fmt: str):
+    """Generate numbers from chaotic dynamical systems."""
+    from src.core.generators.chaos_generator import ChaosGeneratorFactory
+
+    kwargs = {}
+    if map_name == "logistic":
+        kwargs["r"] = r_param
+
+    with console.status(f"Iterating {map_name} map..."):
+        try:
+            numbers = ChaosGeneratorFactory.generate(map_name, count, discard, **kwargs)
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            sys.exit(1)
+
+    _display_numbers([round(x, 6) for x in numbers], f"Chaos: {map_name} map", fmt)
+
+
+@generate.command()
+@click.option("--type", "noise_type", default="perlin",
+              type=click.Choice(["perlin", "value", "white", "pink", "brown", "walk", "bridge"]),
+              help="Noise type")
+@click.option("--count", "-n", default=100, type=int)
+@click.option("--seed", type=int, default=None)
+@click.option("--format", "fmt", default="table",
+              type=click.Choice(["table", "json", "csv", "plain"]))
+def noise(noise_type: str, count: int, seed: Optional[int], fmt: str):
+    """Generate noise sequences (Perlin, pink, brown, random walk, ...)."""
+    from src.core.generators.noise_generator import NoiseGeneratorFactory
+
+    with console.status(f"Generating {noise_type} noise..."):
+        try:
+            numbers = NoiseGeneratorFactory.generate(noise_type, count, seed=seed)
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            sys.exit(1)
+
+    _display_numbers([round(x, 6) for x in numbers], f"Noise: {noise_type}", fmt)
+
+
+@generate.command()
+@click.option("--sequence", "-s", default="halton",
+              type=click.Choice(["halton", "sobol", "van_der_corput", "golden", "lhs"]),
+              help="Low-discrepancy sequence")
+@click.option("--base", default=2, type=int, help="Base (Halton/Van der Corput)")
+@click.option("--count", "-n", default=50, type=int)
+@click.option("--format", "fmt", default="table",
+              type=click.Choice(["table", "json", "csv", "plain"]))
+def quasirandom(sequence: str, base: int, count: int, fmt: str):
+    """Generate quasi-random (low-discrepancy) sequences."""
+    from src.core.generators.quasirandom_generator import QuasiRandomFactory
+
+    kwargs = {}
+    if sequence in ("halton", "van_der_corput"):
+        kwargs["base"] = base
+
+    with console.status(f"Generating {sequence} sequence..."):
+        try:
+            numbers = QuasiRandomFactory.generate(sequence, count, **kwargs)
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            sys.exit(1)
+
+    display = [round(x, 6) if isinstance(x, float) else [round(v, 6) for v in x]
+               for x in numbers]
+    _display_numbers(display, f"Quasi-random: {sequence}", fmt)
+
+
+@generate.command()
+@click.option("--constant", "-c", default="pi",
+              type=click.Choice(["pi", "e", "sqrt2", "phi", "champernowne", "thue_morse"]),
+              help="Mathematical constant")
+@click.option("--count", "-n", default=100, type=int, help="Number of digits")
+@click.option("--format", "fmt", default="plain",
+              type=click.Choice(["table", "json", "csv", "plain"]))
+def digits(constant: str, count: int, fmt: str):
+    """Generate digits of mathematical constants (pi, e, sqrt2, phi, ...)."""
+    from src.core.generators.digits_generator import DigitsGeneratorFactory
+
+    with console.status(f"Computing {count} digits of {constant}..."):
+        try:
+            values = DigitsGeneratorFactory.generate(constant, count)
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            sys.exit(1)
+
+    if fmt == "plain":
+        click.echo("".join(str(d) for d in values))
+    else:
+        _display_numbers(values, f"Digits of {constant}", fmt)
+
+
+@generate.command()
+@click.option("--type", "number_type", default="happy",
+              type=click.Choice(["perfect", "happy", "narcissistic", "armstrong", "kaprekar",
+                                 "harshad", "palindromic", "automorphic", "vampire"]),
+              help="Special number type")
+@click.option("--count", "-n", default=20, type=int)
+@click.option("--start", type=int, default=None, help="Starting search value")
+@click.option("--format", "fmt", default="table",
+              type=click.Choice(["table", "json", "csv", "plain"]))
+def special(number_type: str, count: int, start: Optional[int], fmt: str):
+    """Generate special number-theory numbers (happy, perfect, Kaprekar, ...)."""
+    from src.core.generators.numbertheory_generator import NumberTheoryFactory
+
+    with console.status(f"Finding {count} {number_type} numbers..."):
+        try:
+            numbers = NumberTheoryFactory.generate(number_type, count, start)
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+            sys.exit(1)
+
+    _display_numbers(numbers, f"{number_type.title()} Numbers", fmt)
